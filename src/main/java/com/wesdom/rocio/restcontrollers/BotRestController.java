@@ -7,12 +7,15 @@ package com.wesdom.rocio.restcontrollers;
 
 import com.wesdom.rocio.dtos.WebhookDto;
 import java.util.Arrays;
+import java.util.Map;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -52,7 +55,7 @@ public class BotRestController {
     */
     
     @PostMapping("rocio/v1/issues")
-    public WebhookDto getSolvedIssues(@RequestBody String requestBody ){
+    public WebhookDto getSolvedIssues(@RequestParam Map<String,String> requestBody ) throws JSONException{
         JSONObject request = new JSONObject(requestBody);
         return new WebhookDto().setUser_id(request.getString("user_id")).setBot_id(request.getString("bot_id")).
                 setBlocked_input(Boolean.TRUE).setChannel(request.getString("channel")).setModule_id(request.getString("module_id")).
