@@ -58,7 +58,7 @@ public class BotRestController {
         JSONObject request = new JSONObject(requestBody);
         return new WebhookDto().setUser_id(request.getString("user_id")).setBot_id(request.getString("bot_id")).
                 setBlocked_input(Boolean.TRUE).setChannel(request.getString("channel")).setModule_id(request.getString("module_id")).
-                setSuggestedReplies(Arrays.asList("1012","4598")).setMessage("Estos son tus problemas");
+                setSuggested_replies(Arrays.asList("1012","4598")).setMessage("Estos son tus problemas");
         
     }
     
