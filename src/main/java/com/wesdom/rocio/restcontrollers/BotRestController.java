@@ -13,7 +13,6 @@ import org.json.JSONObject;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,7 +58,7 @@ public class BotRestController {
         JSONObject request = new JSONObject(requestBody);
         return new WebhookDto().setUser_id(request.getString("user_id")).setBot_id(request.getString("bot_id")).
                 setBlocked_input(Boolean.TRUE).setChannel(request.getString("channel")).setModule_id(request.getString("module_id")).
-                setSuggestedReplies(Arrays.asList("1012","4598"));
+                setSuggestedReplies(Arrays.asList("1012","4598")).setMessage("Estos son tus problemas");
         
     }
     
