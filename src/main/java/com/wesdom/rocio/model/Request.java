@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,5 +37,18 @@ public class Request {
     private String email;
     
     private String  celNumber;
+    
+    private String description;
+    
+    private String status;
+    
+    private String product;
+    
+    private String variety;
+    
+    private String diseaseTime;
+    
+    private String amountOfPlants;
+    
     
 }

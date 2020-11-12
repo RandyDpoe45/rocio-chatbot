@@ -5,6 +5,8 @@
  */
 package com.wesdom.rocio.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.wesdom.rocio.views.RequestViews;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,7 +34,11 @@ public class Group {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView({RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
     private Long id;
+    
+    @JsonView({RequestViews.BasicView.class})
+    private String name;
     
     @ManyToOne(targetEntity = Expert.class)
     private Expert expert;

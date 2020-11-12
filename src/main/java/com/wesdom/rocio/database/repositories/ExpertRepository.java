@@ -5,10 +5,20 @@
  */
 package com.wesdom.rocio.database.repositories;
 
+import com.wesdom.rocio.model.Expert;
+import java.util.Map;
+import org.springframework.data.domain.Page;
+
 /**
  *
  * @author randy
  */
 public interface ExpertRepository {
+    
+    Expert get(Long id);
+    Expert create(Expert expert);
+    Expert update(Expert expert);
+    void delete(Long id);
+    Page<Expert> getAll(Map<String,String> queryParams);
     
 }
