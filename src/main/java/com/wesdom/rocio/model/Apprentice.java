@@ -16,11 +16,10 @@ import lombok.experimental.Accessors;
  * @author randy
  */
 @Entity
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
 @Accessors(chain = true)
-public class Expert extends User{
-    
+public class Apprentice extends User {
     
 }

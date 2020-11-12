@@ -6,12 +6,12 @@
 package com.wesdom.rocio.model;
 
 import java.util.List;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,25 +23,23 @@ import org.hibernate.annotations.OnDeleteAction;
  *
  * @author randy
  */
+@Entity
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
 @Accessors(chain = true)
-@MappedSuperclass
-public class User {
+public class Group {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private Double effectiveness; 
+    @ManyToOne(targetEntity = Expert.class)
+    private Expert expert;
     
-    @ManyToMany(targetEntity = KnowledgeArea.class)
+    @ManyToMany(targetEntity = Apprentice.class)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
-    private List<KnowledgeArea> knowledgeAreas;
-    
-    private Long diagnosisAsig;
-    
+    private List<Apprentice> apprentices;
     
     
 }

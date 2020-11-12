@@ -6,6 +6,11 @@
 package com.wesdom.rocio.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,11 +21,22 @@ import lombok.experimental.Accessors;
  * @author randy
  */
 @Entity
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
 @Accessors(chain = true)
-public class Expert extends User{
+public class Request {
     
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @ManyToOne(targetEntity = Group.class)
+    private Group group;
+    
+    private String email;
+    
+    private String  celNumber;
     
 }

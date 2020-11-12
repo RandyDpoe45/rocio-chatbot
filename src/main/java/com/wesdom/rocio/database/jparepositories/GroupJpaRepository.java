@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.wesdom.rocio.repositories;
+package com.wesdom.rocio.database.jparepositories;
 
-import com.wesdom.rocio.model.Expert;
+import com.wesdom.rocio.model.Group;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Repository;
  * @author randy
  */
 @Repository
-public interface ExpertJpaRepository extends JpaRepository<Expert, Long>, JpaSpecificationExecutor<Expert> {
+public interface GroupJpaRepository extends JpaRepository<Group, Long>, JpaSpecificationExecutor<Group> {
     
 }
