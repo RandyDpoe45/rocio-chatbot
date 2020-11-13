@@ -49,7 +49,8 @@ public class RequestRestController {
     @JsonView(RequestViews.BasicView.class)
     public Request create(@RequestBody String chatBotData) {
         try {
-            JSONObject data = new JSONObject(chatBotData).getJSONObject("body").getJSONObject("variables");
+            JSONObject data = new JSONObject(chatBotData).getJSONObject("variables");
+            System.out.println("!!!data: "+data.toString());
             Request r = new Request().setAmountOfPlants(data.getString("amountOfPlants")).setCelNumber(data.getString("celNumber")).
                     setDescription(data.getString("description")).setDiseaseTime(data.getString("diseaseTime")).setEmail(data.getString("email")).
                     setProduct(data.getString("product")).setStatus("AA").setVariety(data.getString("variety"));
