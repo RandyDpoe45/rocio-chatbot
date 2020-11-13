@@ -6,6 +6,7 @@
 package com.wesdom.rocio.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.wesdom.rocio.views.ApprenticeViews;
 import com.wesdom.rocio.views.DiagnosisGroupViews;
 import com.wesdom.rocio.views.ExpertViews;
 import java.util.List;
@@ -39,30 +40,35 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView({
         DiagnosisGroupViews.CreateUpdateView.class, DiagnosisGroupViews.BasicView.class,
-        ExpertViews.CreateUpdateView.class, ExpertViews.BasicView.class
+        ExpertViews.CreateUpdateView.class, ExpertViews.BasicView.class,
+        ApprenticeViews.CreateUpdateView.class, ApprenticeViews.BasicView.class
     })
     private Long id;
     
     @JsonView({
         DiagnosisGroupViews.BasicView.class,
-        ExpertViews.CreateUpdateView.class, ExpertViews.BasicView.class
+        ExpertViews.CreateUpdateView.class, ExpertViews.BasicView.class,
+        ApprenticeViews.CreateUpdateView.class, ApprenticeViews.BasicView.class
     })
     private String userId;
     
     @JsonView({
-        ExpertViews.CreateUpdateView.class, ExpertViews.BasicView.class
+        ExpertViews.CreateUpdateView.class, ExpertViews.BasicView.class,
+        ApprenticeViews.CreateUpdateView.class, ApprenticeViews.BasicView.class
     })
     private Double effectiveness; 
     
     @ManyToMany(targetEntity = KnowledgeArea.class)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JsonView({
-        ExpertViews.CreateUpdateView.class, ExpertViews.BasicView.class
+        ExpertViews.CreateUpdateView.class, ExpertViews.BasicView.class,
+        ApprenticeViews.CreateUpdateView.class, ApprenticeViews.BasicView.class
     })
     private List<KnowledgeArea> knowledgeAreas;
     
     @JsonView({
-        ExpertViews.CreateUpdateView.class, ExpertViews.BasicView.class
+        ExpertViews.CreateUpdateView.class, ExpertViews.BasicView.class,
+        ApprenticeViews.CreateUpdateView.class, ApprenticeViews.BasicView.class
     })
     private Long diagnosisAsig;
     
