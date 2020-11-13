@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 @Setter
 @NoArgsConstructor
 @Accessors(chain = true)
-public class Expert extends User{
+public class Expert extends AppUser{
     
     
 }

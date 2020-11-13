@@ -53,7 +53,7 @@ public class RequestRestController {
             System.out.println("!!!data: "+data.toString());
             Request r = new Request().setAmountOfPlants(data.getString("amountOfPlants")).setCelNumber(data.getString("celNumber")).
                     setDescription(data.getString("description")).setDiseaseTime(data.getString("diseaseTime")).setEmail(data.getString("email")).
-                    setProduct(data.getString("product")).setStatus("AA").setVariety(data.getString("variety"));
+                    setProduct(data.getString("product")).setStatus("EE").setVariety(data.getString("variety"));
             return requestService.create(r);
         } catch (Exception e) {
             e.printStackTrace();

@@ -29,6 +29,7 @@ public class RequestServiceImpl implements RequestService{
     
     @Override
     public Request create(Request request) {
+        request.setRequestDate(new Date());
         return requestRepository.create(request);
     }
 
@@ -36,7 +37,6 @@ public class RequestServiceImpl implements RequestService{
     public Request update(Long id, Request request) {
         DiagnosisGroup g = groupRepository.get(request.getGroup().getId());
         request.setGroup(g);
-        request.setRequestDate(new Date());
         return requestRepository.update(id, request);
     }
     

@@ -62,7 +62,7 @@ public class KnowledgeAreaRepositoryImpl implements KnowledgeAreaRepository {
 
     @Override
     public List<KnowledgeArea> getAllById(List<Long> ids) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return knowledgeAreaJpaRepository.findAllById(ids);
     }
     
     

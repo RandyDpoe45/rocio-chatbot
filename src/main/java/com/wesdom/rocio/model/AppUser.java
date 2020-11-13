@@ -9,11 +9,13 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.wesdom.rocio.views.DiagnosisGroupViews;
 import com.wesdom.rocio.views.ExpertViews;
 import java.util.List;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
-import javax.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,8 +31,9 @@ import org.hibernate.annotations.OnDeleteAction;
 @Setter
 @NoArgsConstructor
 @Accessors(chain = true)
-@MappedSuperclass
-public class User {
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+public class AppUser {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

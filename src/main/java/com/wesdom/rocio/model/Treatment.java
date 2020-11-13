@@ -6,6 +6,11 @@
 package com.wesdom.rocio.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,10 +21,20 @@ import lombok.experimental.Accessors;
  * @author randy
  */
 @Entity
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 @Accessors(chain = true)
-public class Apprentice extends AppUser {
+public class Treatment {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    private String type;
+    
+    private String preparation;
+    
+    private Boolean biological;
+        
 }
