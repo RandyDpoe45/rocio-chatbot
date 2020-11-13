@@ -6,6 +6,7 @@
 package com.wesdom.rocio.database.repositories;
 
 import com.wesdom.rocio.model.Apprentice;
+import java.util.List;
 import java.util.Map;
 import org.springframework.data.domain.Page;
 
@@ -17,8 +18,9 @@ public interface ApprenticeRepository {
     
     Apprentice get(Long id);
     Apprentice create(Apprentice apprentice);
-    Apprentice update(Apprentice apprentice);
+    Apprentice update(Long id, Apprentice apprentice);
     void delete(Long id);
     Page<Apprentice> getAll(Map<String,String> queryParams);
+    List<Apprentice> getAllById(List<Long> ids);
     
 }

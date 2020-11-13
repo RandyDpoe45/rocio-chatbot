@@ -9,14 +9,16 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wesdom.rocio.database.repositories.RequestRepository;
-import com.wesdom.rocio.model.Request;
-import com.wesdom.rocio.services.RequestService;
-import com.wesdom.rocio.views.RequestViews;
+import com.wesdom.rocio.database.repositories.ExpertRepository;
+import com.wesdom.rocio.model.Expert;
+import com.wesdom.rocio.model.Expert;
+import com.wesdom.rocio.services.ExpertService;
+import com.wesdom.rocio.views.ExpertViews;
+import com.wesdom.rocio.views.ExpertViews;
+import com.wesdom.rocio.views.ExpertViews;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,42 +38,35 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @CrossOrigin(origins = {"*"})
-@RequestMapping("rocio/v1/request")
-public class RequestRestController {
-
+@RequestMapping("rocio/v1/expert")
+public class ExpertRestController {
+    
     @Autowired
-    private RequestService requestService;
-
+    private ExpertService expertService;
+    
     @Autowired
-    private RequestRepository requestRepository;
-
+    private ExpertRepository expertRepository;
+    
     @PostMapping("")
-    @JsonView(RequestViews.BasicView.class)
-    public Request create(@RequestBody String chatBotData) {
-        try {
-            JSONObject data = new JSONObject(chatBotData).getJSONObject("variables");
-            Request r = new Request().setAmountOfPlants(data.getString("amountOfPlants")).setCelNumber(data.getString("celNumber")).
-                    setDescription(data.getString("description")).setDiseaseTime(data.getString("diseaseTime")).setEmail(data.getString("email")).
-                    setProduct(data.getString("product")).setStatus("AA").setVariety(data.getString("variety"));
-            return requestService.create(r);
-        } catch (Exception e) {
-            return new Request();
-        }
+    @JsonView(ExpertViews.BasicView.class)
+    public Expert create(@RequestBody String data) throws JsonProcessingException {
+        Expert expert = decode(data);
+        return expertService.create(expert);
     }
 
     @GetMapping
-    @JsonView(RequestViews.BasicView.class)
-    public Page<Request> getAll(@RequestParam Map<String, String> queryParams) {
-        return requestRepository.getAll(queryParams);
+    @JsonView(ExpertViews.BasicView.class)
+    public Page<Expert> getAll(@RequestParam Map<String, String> queryParams) {
+        return expertRepository.getAll(queryParams);
     }
 
     @PutMapping("/{id}")
-    @JsonView(RequestViews.BasicView.class)
-    public Request update(@PathVariable Long id, @RequestBody String data) {
-        Request r = null;
+    @JsonView(ExpertViews.BasicView.class)
+    public Expert update(@PathVariable Long id, @RequestBody String data) {
+        Expert r = null;
         try {
             r = decode(data);
-            r = requestRepository.update(id, r);
+            r = expertService.update(id, r);
         } catch (JsonProcessingException ex) {
             Logger.getLogger(RequestRestController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -80,14 +75,14 @@ public class RequestRestController {
 
     @DeleteMapping("/{id}")
     public GeneralResponse delete(@PathVariable Long id) {
-        requestRepository.delete(id);
-        return new GeneralResponse().setErrorCode("000").setResponse("Borada con exito");
+        expertRepository.delete(id);
+        return new GeneralResponse().setErrorCode("000").setResponse("Borado con exito");
     }
 
-    private Request decode(String data) throws JsonProcessingException {
+    private Expert decode(String data) throws JsonProcessingException {
         ObjectMapper o = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        return o.readerWithView(RequestViews.CreateUpdateView.class)
-                .forType(Request.class)
+        return o.readerWithView(ExpertViews.CreateUpdateView.class)
+                .forType(Expert.class)
                 .readValue(data);
     }
 }

@@ -8,6 +8,11 @@ package com.wesdom.rocio.database.repositoriesimpl;
 import com.wesdom.rocio.database.jparepositories.GroupJpaRepository;
 import com.wesdom.rocio.database.repositories.GroupRepository;
 import com.wesdom.rocio.model.DiagnosisGroup;
+import com.wesdom.rocio.services.IPaginationBuilder;
+import com.wesdom.rocio.services.IPredicateBuilder;
+import com.wesdom.rocio.servicesimpl.PaginationBuilderImpl;
+import com.wesdom.rocio.servicesimpl.PredicateBuilderServiceImpl;
+import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,19 +40,25 @@ public class GroupRepositoryImpl implements GroupRepository{
 
     @Override
     public DiagnosisGroup update(Long id, DiagnosisGroup group) {
-//        DiagnosisGroup g =groupJpaRepository.getOne(id);
-//        g.set
-        return  null;
+        DiagnosisGroup g =groupJpaRepository.getOne(id);
+        g.setApprentices(group.getApprentices()).setExpert(group.getExpert()).
+                setName(group.getName());
+        return  groupJpaRepository.save(g);
     }
 
     @Override
     public void delete(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        groupJpaRepository.deleteById(id);
     }
 
     @Override
     public Page<DiagnosisGroup> getAll(Map<String, String> queryParams) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        IPredicateBuilder<DiagnosisGroup> predicate = new PredicateBuilderServiceImpl<>();
+        IPaginationBuilder paginationBuilder = new PaginationBuilderImpl();
+        if(queryParams == null){
+            queryParams = new HashMap<>();
+        }
+        return groupJpaRepository.findAll(predicate.createPredicate(queryParams), paginationBuilder.createPagination(queryParams));
     }
     
 }

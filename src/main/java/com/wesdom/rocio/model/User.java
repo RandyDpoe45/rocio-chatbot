@@ -5,6 +5,8 @@
  */
 package com.wesdom.rocio.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.wesdom.rocio.views.DiagnosisGroupViews;
 import java.util.List;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,7 +34,15 @@ public class User {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView({
+        DiagnosisGroupViews.CreateUpdateView.class, DiagnosisGroupViews.BasicView.class
+    })
     private Long id;
+    
+    @JsonView({
+        DiagnosisGroupViews.BasicView.class
+    })
+    private String userId;
     
     private Double effectiveness; 
     
