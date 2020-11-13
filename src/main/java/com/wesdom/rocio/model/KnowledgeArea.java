@@ -5,6 +5,8 @@
  */
 package com.wesdom.rocio.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.wesdom.rocio.views.ExpertViews;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,8 +29,14 @@ public class KnowledgeArea {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView({
+        ExpertViews.CreateUpdateView.class, ExpertViews.BasicView.class
+    })
     private Long id;
     
+    @JsonView({
+        ExpertViews.BasicView.class
+    })
     private String name;
     
     private String description;

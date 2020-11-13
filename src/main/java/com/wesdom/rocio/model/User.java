@@ -13,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,7 +34,8 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView({
-        DiagnosisGroupViews.CreateUpdateView.class, DiagnosisGroupViews.BasicView.class
+        DiagnosisGroupViews.CreateUpdateView.class, DiagnosisGroupViews.BasicView.class,
+        
     })
     private Long id;
     
