@@ -55,6 +55,7 @@ public class RequestRestController {
                     setProduct(data.getString("product")).setStatus("AA").setVariety(data.getString("variety"));
             return requestService.create(r);
         } catch (Exception e) {
+            e.printStackTrace();
             return new Request();
         }
     }
