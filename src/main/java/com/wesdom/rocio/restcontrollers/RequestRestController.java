@@ -72,7 +72,6 @@ public class RequestRestController {
         JSONObject request = new JSONObject(requestBody);
         Map<String,String> filters = new HashMap<>();
         filters.put("celNumber", request.getString("celular_consulta"));
-        filters.put("email", request.getString("email_consulta"));
         Page<Request> requests = requestRepository.getAll(filters);
         List<String> suggestedRep = requests.stream().map(x -> {return x.getId()+" : "+x.getDescription();}).collect(Collectors.toList());
         return new WebhookDto().setUser_id(request.getString("user_id")).setBot_id(request.getString("bot_id")).
