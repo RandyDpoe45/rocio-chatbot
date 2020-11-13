@@ -73,7 +73,7 @@ public class RequestRestController {
         Map<String,String> filters = new HashMap<>();
         filters.put("celNumber", request.getString("celular_consulta"));
         Page<Request> requests = requestRepository.getAll(filters);
-        List<String> suggestedRep = requests.stream().map(x -> {return x.getId()+" : "+x.getDescription();}).collect(Collectors.toList());
+        List<String> suggestedRep = requests.stream().map(x -> {return "Numero de solicitud: "+x.getId()+"\nDescripcion: "+x.getDescription();}).collect(Collectors.toList());
         return new WebhookDto().setUser_id(request.getString("user_id")).setBot_id(request.getString("bot_id")).
                 setBlocked_input(Boolean.TRUE).setChannel(request.getString("channel")).setModule_id(request.getString("module_id")).
                 setSuggested_replies(suggestedRep).setMessage("Estos son tus problemas");
