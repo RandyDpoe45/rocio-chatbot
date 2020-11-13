@@ -5,6 +5,7 @@
  */
 package com.wesdom.rocio.restcontrollers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,9 +16,11 @@ import com.wesdom.rocio.views.RequestViews;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,19 +46,23 @@ public class RequestRestController {
     private RequestRepository requestRepository;
             
     @PostMapping("")
-    public Request create(@RequestParam Map<String,String> data){
-        Request r = new Request().setAmountOfPlants(data.get("amountOfPlants")).setCelNumber(data.get("celNumber")).
-                setDescription(data.get("description")).setDiseaseTime("diseaseTime").setEmail("email").setProduct(data.get("product")).
-                setStatus("AA").setVariety(data.get("variety"));
+    @JsonView(RequestViews.BasicView.class)
+    public Request create(@RequestBody String chatBotData){
+        JSONObject data = new JSONObject(chatBotData).getJSONObject("variables");
+        Request r = new Request().setAmountOfPlants(data.getString("amountOfPlants")).setCelNumber(data.getString("celNumber")).
+                setDescription(data.getString("description")).setDiseaseTime(data.getString("diseaseTime")).setEmail(data.getString("email")).
+                setProduct(data.getString("product")).setStatus("AA").setVariety(data.getString("variety"));
         return requestService.create(r);
     } 
     
     @GetMapping
+    @JsonView(RequestViews.BasicView.class)
     public Page<Request> getAll(@RequestParam Map<String,String> queryParams){
         return requestRepository.getAll(queryParams);
     }
     
     @PutMapping("/{id}")
+    @JsonView(RequestViews.BasicView.class)
     public Request update(@PathVariable Long id, @RequestBody String data){
         Request r = null;
         try {
@@ -65,6 +72,13 @@ public class RequestRestController {
             Logger.getLogger(RequestRestController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return r;
+    }
+    
+    
+    @DeleteMapping("/{id}")
+    public GeneralResponse delete(@PathVariable Long id){
+        requestRepository.delete(id);
+        return new GeneralResponse().setErrorCode("000").setResponse("Borada con exito");
     }
     
     private Request decode(String data) throws JsonProcessingException{

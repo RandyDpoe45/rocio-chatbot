@@ -5,6 +5,11 @@
  */
 package com.wesdom.rocio.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.wesdom.rocio.views.RequestViews;
+import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,25 +34,33 @@ public class Request {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView({RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
     private Long id;
     
-    @ManyToOne(targetEntity = Group.class)
-    private Group group;
+    @ManyToOne(targetEntity = DiagnosisGroup.class)
+    @JsonView({RequestViews.CreateUpdateView.class, RequestViews.BasicView.class})
+    private DiagnosisGroup group;
     
+    @JsonView({RequestViews.CreateUpdateView.class, RequestViews.BasicView.class})
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private Date requestDate;
+    
+    @JsonView({RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
     private String email;
-    
+    @JsonView({RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
     private String  celNumber;
-    
+    @Column(length = Integer.MAX_VALUE)
+    @JsonView({RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
     private String description;
-    
+    @JsonView({RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
     private String status;
-    
+    @JsonView({RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
     private String product;
-    
+    @JsonView({RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
     private String variety;
-    
+    @JsonView({RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
     private String diseaseTime;
-    
+    @JsonView({RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
     private String amountOfPlants;
     
     

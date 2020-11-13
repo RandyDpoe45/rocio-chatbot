@@ -30,7 +30,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class Group {
+public class DiagnosisGroup {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -7,7 +7,7 @@ package com.wesdom.rocio.database.repositoriesimpl;
 
 import com.wesdom.rocio.database.jparepositories.GroupJpaRepository;
 import com.wesdom.rocio.database.repositories.GroupRepository;
-import com.wesdom.rocio.model.Group;
+import com.wesdom.rocio.model.DiagnosisGroup;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,18 +24,18 @@ public class GroupRepositoryImpl implements GroupRepository{
     private GroupJpaRepository groupJpaRepository; 
     
     @Override
-    public Group get(Long id) {
+    public DiagnosisGroup get(Long id) {
         return groupJpaRepository.getOne(id);
     }
 
     @Override
-    public Group create(Group group) {
+    public DiagnosisGroup create(DiagnosisGroup group) {
         return groupJpaRepository.save(group);
     }
 
     @Override
-    public Group update(Long id, Group group) {
-//        Group g =groupJpaRepository.getOne(id);
+    public DiagnosisGroup update(Long id, DiagnosisGroup group) {
+//        DiagnosisGroup g =groupJpaRepository.getOne(id);
 //        g.set
         return  null;
     }
@@ -46,7 +46,7 @@ public class GroupRepositoryImpl implements GroupRepository{
     }
 
     @Override
-    public Page<Group> getAll(Map<String, String> queryParams) {
+    public Page<DiagnosisGroup> getAll(Map<String, String> queryParams) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

@@ -7,9 +7,10 @@ package com.wesdom.rocio.servicesimpl;
 
 import com.wesdom.rocio.database.repositories.GroupRepository;
 import com.wesdom.rocio.database.repositories.RequestRepository;
-import com.wesdom.rocio.model.Group;
+import com.wesdom.rocio.model.DiagnosisGroup;
 import com.wesdom.rocio.model.Request;
 import com.wesdom.rocio.services.RequestService;
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,8 +34,9 @@ public class RequestServiceImpl implements RequestService{
 
     @Override
     public Request update(Long id, Request request) {
-        Group g = groupRepository.get(request.getGroup().getId());
+        DiagnosisGroup g = groupRepository.get(request.getGroup().getId());
         request.setGroup(g);
+        request.setRequestDate(new Date());
         return requestRepository.update(id, request);
     }
     
