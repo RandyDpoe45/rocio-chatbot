@@ -10,12 +10,17 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wesdom.rocio.database.repositories.RequestRepository;
+import com.wesdom.rocio.dtos.WebhookDto;
 import com.wesdom.rocio.model.Request;
 import com.wesdom.rocio.services.RequestService;
 import com.wesdom.rocio.views.RequestViews;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -58,6 +63,23 @@ public class RequestRestController {
         } catch (Exception e) {
             e.printStackTrace();
             return new Request();
+        }
+    }
+    
+    @PostMapping("/bot")
+    public WebhookDto getBotSolvedIssues(@RequestParam Map<String,String> requestBody ) throws JSONException{
+        try{
+        JSONObject request = new JSONObject(requestBody);
+        Map<String,String> filters = new HashMap<>();
+        filters.put("celNumber", request.getString("celular_consultar"));
+        filters.put("email", request.getString("email_consultar"));
+        Page<Request> requests = requestRepository.getAll(filters);
+        List<String> suggestedRep = requests.stream().map(x -> {return x.getId()+" : "+x.getDescription();}).collect(Collectors.toList());
+        return new WebhookDto().setUser_id(request.getString("user_id")).setBot_id(request.getString("bot_id")).
+                setBlocked_input(Boolean.TRUE).setChannel(request.getString("channel")).setModule_id(request.getString("module_id")).
+                setSuggested_replies(suggestedRep).setMessage("Estos son tus problemas");
+        }catch(Exception e){
+            return null;
         }
     }
 
