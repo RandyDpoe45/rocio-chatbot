@@ -79,7 +79,8 @@ public class RequestRestController {
                 setBlocked_input(Boolean.TRUE).setChannel(request.getString("channel")).setModule_id(request.getString("module_id")).
                 setSuggested_replies(suggestedRep).setMessage("Estos son tus problemas");
         }catch(Exception e){
-            return null;
+            
+            return new WebhookDto();
         }
     }
 
