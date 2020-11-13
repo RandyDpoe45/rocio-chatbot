@@ -53,14 +53,7 @@ public class BotRestController {
             ];
     */
     
-    @PostMapping("rocio/v1/issues")
-    public WebhookDto getSolvedIssues(@RequestParam Map<String,String> requestBody ) throws JSONException{
-        JSONObject request = new JSONObject(requestBody);
-        return new WebhookDto().setUser_id(request.getString("user_id")).setBot_id(request.getString("bot_id")).
-                setBlocked_input(Boolean.TRUE).setChannel(request.getString("channel")).setModule_id(request.getString("module_id")).
-                setSuggested_replies(Arrays.asList("1012","4598")).setMessage("Estos son tus problemas");
-        
-    }
+    
     
     @GetMapping
     public String getTestString(){
