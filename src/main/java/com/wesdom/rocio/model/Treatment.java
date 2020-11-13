@@ -5,6 +5,8 @@
  */
 package com.wesdom.rocio.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.wesdom.rocio.views.DiagnosisViews;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,10 +31,22 @@ public class Treatment {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView({
+        
+        DiagnosisViews.CreateUpdateView.class,DiagnosisViews.BasicView.class
+    })
     private Long id;
     
+    @JsonView({
+        
+        DiagnosisViews.BasicView.class
+    })
     private String type;
     
+    @JsonView({
+        
+        DiagnosisViews.BasicView.class
+    })
     private String preparation;
     
     private Boolean biological;

@@ -5,6 +5,8 @@
  */
 package com.wesdom.rocio.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.wesdom.rocio.views.DiagnosisViews;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,10 +33,22 @@ public class Disease {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView({
+        
+        DiagnosisViews.CreateUpdateView.class,DiagnosisViews.BasicView.class
+    })
     private Long id;
     
+    @JsonView({
+        
+        DiagnosisViews.BasicView.class
+    })
     private String name;
     
+    @JsonView({
+        
+        DiagnosisViews.BasicView.class
+    })
     private String scientificName;
     
     @ManyToMany(targetEntity = Product.class)

@@ -50,7 +50,8 @@ public class DiagnosisRepositoryImpl implements DiagnosisRepository {
     @Override
     public Diagnosis update(Long id, Diagnosis diagnosis) {
         Diagnosis diag = diagnosisJpaRepository.getOne(id);
-        diag.setDiseases(diagnosis.getDiseases()).setTreatments(diagnosis.getTreatments()).setUser(diagnosis.getUser());
+        diag.setDiseases(diagnosis.getDiseases()).setTreatments(diagnosis.getTreatments()).setUser(diagnosis.getUser()).
+                setRequest(diagnosis.getRequest());
         return diagnosisJpaRepository.save(diag);
     }
 

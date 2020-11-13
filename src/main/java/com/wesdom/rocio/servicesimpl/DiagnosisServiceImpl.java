@@ -9,11 +9,13 @@ import com.wesdom.rocio.database.jparepositories.DiagnosisJpaRepository;
 import com.wesdom.rocio.database.jparepositories.UserJpaRepository;
 import com.wesdom.rocio.database.repositories.DiagnosisRepository;
 import com.wesdom.rocio.database.repositories.DiseaseRepository;
+import com.wesdom.rocio.database.repositories.RequestRepository;
 import com.wesdom.rocio.database.repositories.TreatmentRepository;
 import com.wesdom.rocio.model.Diagnosis;
 import com.wesdom.rocio.model.Disease;
 import com.wesdom.rocio.model.Treatment;
 import com.wesdom.rocio.model.AppUser;
+import com.wesdom.rocio.model.Request;
 import com.wesdom.rocio.services.DiagnosisService;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,6 +39,9 @@ public class DiagnosisServiceImpl implements DiagnosisService {
     private TreatmentRepository treatmentRepository;
     
     @Autowired
+    private RequestRepository requestRepository;
+    
+    @Autowired
     private DiagnosisRepository diagnosisRepository; 
     
     @Override
@@ -46,7 +51,8 @@ public class DiagnosisServiceImpl implements DiagnosisService {
         List<Disease> diseases = diseaseRepository.getAllById(diagnosis.getDiseases().
                 stream().map(x -> x.getId()).collect( Collectors.toList()));
         AppUser user = userJpaRepository.getOne(diagnosis.getUser().getId());
-        diagnosis.setDiseases(diseases).setTreatments(treatments).setUser(user);
+        Request request = requestRepository.get(diagnosis.getId());
+        diagnosis.setDiseases(diseases).setTreatments(treatments).setUser(user).setRequest(request);
         return diagnosisRepository.create(diagnosis);
     }
 
@@ -57,7 +63,8 @@ public class DiagnosisServiceImpl implements DiagnosisService {
         List<Disease> diseases = diseaseRepository.getAllById(diagnosis.getDiseases().
                 stream().map(x -> x.getId()).collect( Collectors.toList()));
         AppUser user = userJpaRepository.getOne(diagnosis.getUser().getId());
-        diagnosis.setDiseases(diseases).setTreatments(treatments).setUser(user);
+        Request request = requestRepository.get(diagnosis.getId());
+        diagnosis.setDiseases(diseases).setTreatments(treatments).setUser(user).setRequest(request);
         return diagnosisRepository.update(id, diagnosis);
     }
     

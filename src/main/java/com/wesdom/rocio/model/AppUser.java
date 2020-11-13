@@ -8,6 +8,7 @@ package com.wesdom.rocio.model;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.wesdom.rocio.views.ApprenticeViews;
 import com.wesdom.rocio.views.DiagnosisGroupViews;
+import com.wesdom.rocio.views.DiagnosisViews;
 import com.wesdom.rocio.views.ExpertViews;
 import java.util.List;
 import javax.persistence.Entity;
@@ -41,14 +42,16 @@ public class AppUser {
     @JsonView({
         DiagnosisGroupViews.CreateUpdateView.class, DiagnosisGroupViews.BasicView.class,
         ExpertViews.CreateUpdateView.class, ExpertViews.BasicView.class,
-        ApprenticeViews.CreateUpdateView.class, ApprenticeViews.BasicView.class
+        ApprenticeViews.CreateUpdateView.class, ApprenticeViews.BasicView.class,
+        DiagnosisViews.CreateUpdateView.class,DiagnosisViews.BasicView.class
     })
     private Long id;
     
     @JsonView({
         DiagnosisGroupViews.BasicView.class,
         ExpertViews.CreateUpdateView.class, ExpertViews.BasicView.class,
-        ApprenticeViews.CreateUpdateView.class, ApprenticeViews.BasicView.class
+        ApprenticeViews.CreateUpdateView.class, ApprenticeViews.BasicView.class,
+        DiagnosisViews.BasicView.class
     })
     private String userId;
     

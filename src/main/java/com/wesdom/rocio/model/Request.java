@@ -7,6 +7,7 @@ package com.wesdom.rocio.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.wesdom.rocio.views.DiagnosisViews;
 import com.wesdom.rocio.views.RequestViews;
 import java.util.Date;
 import javax.persistence.Column;
@@ -34,11 +35,15 @@ public class Request {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonView({RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
+    @JsonView({
+        RequestViews.CreateUpdateView.class,RequestViews.BasicView.class,
+        DiagnosisViews.CreateUpdateView.class,DiagnosisViews.BasicView.class
+    })
     private Long id;
     
     @ManyToOne(targetEntity = DiagnosisGroup.class)
-    @JsonView({RequestViews.CreateUpdateView.class, RequestViews.BasicView.class})
+    @JsonView({
+        RequestViews.CreateUpdateView.class, RequestViews.BasicView.class})
     private DiagnosisGroup group;
     
     @JsonView({RequestViews.CreateUpdateView.class, RequestViews.BasicView.class})
