@@ -76,28 +76,30 @@ public class RequestRestController {
             JSONObject request = new JSONObject(requestBody);
             Map<String,String> filters = new HashMap<>();
             filters.put("celNumber", request.getString("celular_consulta"));
+            filters.put("status","AM,AA");
             Page<Request> requests = requestRepository.getAll(filters);
-            List<String> suggestedRep = requests.stream().map(x -> {return "Numero de solicitud: "+x.getId()+"\nDescripcion: "+x.getDescription();}).collect(Collectors.toList());
+            List<String> suggestedRep = requests.stream().map(x -> {return "Numero de solicitud: "+x.getId()+"# Descripcion: "+x.getDescription();}).collect(Collectors.toList());
             return new WebhookDto().setUser_id(request.getString("user_id")).setBot_id(request.getString("bot_id")).
                     setBlocked_input(Boolean.TRUE).setChannel(request.getString("channel")).setModule_id(request.getString("module_id")).
-                    setSuggested_replies(null).setMessage("Estos son tus problemas").setCards(new JSONArray("[\n" +
-                    "    {\n" +
-                    "        \"type\": \"text\",\n" +
-                    "            \"value\": \"Test Text Card\",\n" +
-                    "            \"buttons\": [\n" +
-                    "        {\n" +
-                    "            \"type\": \"url\",\n" +
-                    "                \"value\": \"https://google.com\",\n" +
-                    "                \"name\": \"google\"\n" +
-                    "        },\n" +
-                    "        {\n" +
-                    "            \"type\": \"module\",\n" +
-                    "                \"value\": \"4600\",\n" +
-                    "                \"name\": \"Change Module\"\n" +
-                    "        }\n" +
-                    "            ]\n" +
-                    "    }\n" +
-                    "]").toList());
+                    setSuggested_replies(suggestedRep).setMessage("Estos son tus problemas");
+//                    .setCards(new JSONArray("[\n" +
+//                    "    {\n" +
+//                    "        \"type\": \"text\",\n" +
+//                    "            \"value\": \"Test Text Card\",\n" +
+//                    "            \"buttons\": [\n" +
+//                    "        {\n" +
+//                    "            \"type\": \"url\",\n" +
+//                    "                \"value\": \"https://google.com\",\n" +
+//                    "                \"name\": \"google\"\n" +
+//                    "        },\n" +
+//                    "        {\n" +
+//                    "            \"type\": \"module\",\n" +
+//                    "                \"value\": \"4600\",\n" +
+//                    "                \"name\": \"Change Module\"\n" +
+//                    "        }\n" +
+//                    "            ]\n" +
+//                    "    }\n" +
+//                    "]").toList());
         }catch(Exception e){
             e.printStackTrace();
             return new WebhookDto();
