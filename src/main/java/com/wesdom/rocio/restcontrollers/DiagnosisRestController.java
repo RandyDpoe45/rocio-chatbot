@@ -91,6 +91,7 @@ public class DiagnosisRestController {
                     setBlocked_input(Boolean.TRUE).setChannel(request.getString("channel")).setModule_id(request.getString("module_id")).
                     setMessage(response);
         }catch (Exception e){
+            e.printStackTrace();
             return new WebhookDto();
         }
     }
