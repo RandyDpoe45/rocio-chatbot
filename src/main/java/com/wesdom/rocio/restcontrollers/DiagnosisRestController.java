@@ -92,7 +92,7 @@ public class DiagnosisRestController {
                     setMessage(response);
         }catch (Exception e){
             e.printStackTrace();
-            return new WebhookDto();
+            return new WebhookDto();;
         }
     }
 
