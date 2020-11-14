@@ -97,7 +97,7 @@ public class RequestRestController {
                     "        }\n" +
                     "            ]\n" +
                     "    }\n" +
-                    "]").toMap()));
+                    "]").toList()));
         }catch(Exception e){
             e.printStackTrace();
             return new WebhookDto();
