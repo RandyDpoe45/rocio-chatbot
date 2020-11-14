@@ -9,15 +9,14 @@ import com.wesdom.rocio.model.enums.PaginationParamsEnum;
 import com.wesdom.rocio.services.IPredicateBuilder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
+import javax.persistence.metamodel.MapAttribute;
+
+import org.hibernate.query.criteria.internal.path.RootImpl;
 import org.springframework.data.jpa.domain.Specification;
 
 /**
@@ -58,7 +57,7 @@ public class PredicateBuilderServiceImpl<T> implements IPredicateBuilder<T> {
     private Specification<T> createSpecification(String property, String value) {
         
         return (root, query, builder) -> {
-            Path<T> path = buildPath(root, property);
+            Expression<T> path = buildPath(root, property);
             
             if(path.getJavaType().equals(Date.class)){
                 if(value.contains(",")){
@@ -84,12 +83,16 @@ public class PredicateBuilderServiceImpl<T> implements IPredicateBuilder<T> {
     private Path<T> buildPath(Root<T> root, String property) {
         Path<T> p = root;
         for (String s : property.split("\\.")) {
-            p = p.get(s);
+            if(Collection.class.isAssignableFrom(p.get(s).getJavaType())){
+                p = ((From) p).join(s);
+            }else {
+                p = p.get(s);
+            }
         }
         return p;
     }
     
-    private Object processValue(Path<T> property,String value){
+    private Object processValue(Expression<T> property,String value){
         if(property.getJavaType().equals(Date.class)){
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             if(value.contains(",")){
