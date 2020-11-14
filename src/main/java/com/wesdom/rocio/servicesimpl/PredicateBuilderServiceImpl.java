@@ -61,11 +61,19 @@ public class PredicateBuilderServiceImpl<T> implements IPredicateBuilder<T> {
             Path<T> path = buildPath(root, property);
             
             if(path.getJavaType().equals(Date.class)){
+                if(value.contains(",")){
+                    return path.as(Date.class).in(processValue(path,value));
+                }
                 return builder.equal(path.as((Date.class)), processValue(path,value));
             }else if(path.getJavaType().equals(Boolean.class)){
+                if(value.contains(",")){
+                    return path.as(Boolean.class).in(processValue(path,value));
+                }
                 return builder.equal(path.as((boolean.class)), processValue(path,value));
             }
-
+            if(value.contains(",")){
+                return path.as(String.class).in(processValue(path,value));
+            }
             return builder.equal(path.as((String.class)), processValue(path,value));
         };
     }
@@ -83,14 +91,31 @@ public class PredicateBuilderServiceImpl<T> implements IPredicateBuilder<T> {
     
     private Object processValue(Path<T> property,String value){
         if(property.getJavaType().equals(Date.class)){
-            try {
-                SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy");
-                return sdf.parse(value);
-            } catch (ParseException ex) {
-                Logger.getLogger(PredicateBuilderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            if(value.contains(",")){
+                return Arrays.asList(value.split(",")).stream().map(x -> {
+                    try {
+                        return sdf.parse(x);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }).collect(Collectors.toList());
+            }else {
+                try {
+                    return sdf.parse(value);
+                } catch (ParseException ex) {
+                    Logger.getLogger(PredicateBuilderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }else if(property.getJavaType().equals(Boolean.class)){
+            if(value.contains(",")){
+                return Arrays.asList(value.split(",")).stream().map(x -> Boolean.parseBoolean(x)).collect(Collectors.toList());
+            }
             return Boolean.parseBoolean(value);
+        }
+        if(value.contains(",")){
+            return Arrays.asList(value.split(","));
         }
         return value;
     }
