@@ -22,5 +22,6 @@ public interface DiagnosisRepository {
     void delete(Long id);
     Page<Diagnosis> getAll(Map<String,String> queryParams);
     List<Diagnosis> getAllById(List<Long> ids);
+    List<Diagnosis> getByUserIdAndRequestId(List<Long> usersIds, Long requestId);
     
 }

@@ -27,6 +27,6 @@ public class WebhookDto {
     private String module_id;
     private String message;
     private Boolean blocked_input;
-    private List<String> suggested_replies;
-    
+    private Object suggested_replies;
+    private Object cards;
 }

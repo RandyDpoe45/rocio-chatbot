@@ -59,11 +59,13 @@ public class PredicateBuilderServiceImpl<T> implements IPredicateBuilder<T> {
         
         return (root, query, builder) -> {
             Path<T> path = buildPath(root, property);
+            
             if(path.getJavaType().equals(Date.class)){
                 return builder.equal(path.as((Date.class)), processValue(path,value));
             }else if(path.getJavaType().equals(Boolean.class)){
                 return builder.equal(path.as((boolean.class)), processValue(path,value));
             }
+
             return builder.equal(path.as((String.class)), processValue(path,value));
         };
     }

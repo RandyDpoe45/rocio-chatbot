@@ -9,6 +9,7 @@ import com.wesdom.rocio.database.jparepositories.DiagnosisJpaRepository;
 import com.wesdom.rocio.database.jparepositories.DiseaseJpaRepository;
 import com.wesdom.rocio.database.jparepositories.TreatmentJpaRepository;
 import com.wesdom.rocio.database.repositories.DiagnosisRepository;
+import com.wesdom.rocio.model.AppUser;
 import com.wesdom.rocio.model.Diagnosis;
 import com.wesdom.rocio.services.IPaginationBuilder;
 import com.wesdom.rocio.services.IPredicateBuilder;
@@ -73,6 +74,11 @@ public class DiagnosisRepositoryImpl implements DiagnosisRepository {
     @Override
     public List<Diagnosis> getAllById(List<Long> ids) {
         return diagnosisJpaRepository.findAllById(ids);
+    }
+
+    @Override
+    public List<Diagnosis> getByUserIdAndRequestId(List<Long> usersIds, Long requestId){
+        return diagnosisJpaRepository.getByUserIdAndRequestId(usersIds,requestId);
     }
     
 }
