@@ -71,9 +71,9 @@ public class DiagnosisRestController {
         try {
             JSONObject request = new JSONObject(requestBody);
             String reqData = request.getString("reqSol");
-            System.out.println("!!!!----"+reqData);
+//            System.out.println("!!!!----"+reqData);
             Long reqId = Long.parseLong(reqData.split("#")[0].split(":")[1].trim());
-            System.out.println("!!!!!----"+reqId);
+//            System.out.println("!!!!!----"+reqId);
             Request req = requestRepository.get(reqId);
             List<Diagnosis> diagnoses = null;
             if (req.getStatus().equals(RequestStatus.AA.name())) {
@@ -95,7 +95,7 @@ public class DiagnosisRestController {
                     setMessage(response);
         }catch (Exception e){
             e.printStackTrace();
-            return new WebhookDto();;
+            return new WebhookDto();
         }
     }
 
