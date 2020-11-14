@@ -80,7 +80,7 @@ public class RequestRestController {
             List<String> suggestedRep = requests.stream().map(x -> {return "Numero de solicitud: "+x.getId()+"\nDescripcion: "+x.getDescription();}).collect(Collectors.toList());
             return new WebhookDto().setUser_id(request.getString("user_id")).setBot_id(request.getString("bot_id")).
                     setBlocked_input(Boolean.TRUE).setChannel(request.getString("channel")).setModule_id(request.getString("module_id")).
-                    setSuggested_replies(null).setMessage("Estos son tus problemas").setCards(new JSONObject(new JSONArray("[\n" +
+                    setSuggested_replies(null).setMessage("Estos son tus problemas").setCards(new JSONArray("[\n" +
                     "    {\n" +
                     "        \"type\": \"text\",\n" +
                     "            \"value\": \"Test Text Card\",\n" +
@@ -97,7 +97,7 @@ public class RequestRestController {
                     "        }\n" +
                     "            ]\n" +
                     "    }\n" +
-                    "]").toList()));
+                    "]").toList());
         }catch(Exception e){
             e.printStackTrace();
             return new WebhookDto();
