@@ -50,7 +50,7 @@ public class DiagnosisServiceImpl implements DiagnosisService {
         List<Disease> diseases = diseaseRepository.getAllById(diagnosis.getDiseases().
                 stream().map(x -> x.getId()).collect( Collectors.toList()));
         AppUser user = userJpaRepository.getOne(diagnosis.getUser().getId());
-        Request request = requestRepository.get(diagnosis.getId());
+        Request request = requestRepository.get(diagnosis.getRequest().getId());
         diagnosis.setDiseases(diseases).setTreatments(treatments).setUser(user).setRequest(request);
         Diagnosis d  = diagnosisRepository.create(diagnosis);
         if(!Arrays.asList(RequestStatus.PD.name(),RequestStatus.AM.name(),RequestStatus.AA.name()).contains(request.getStatus())){
