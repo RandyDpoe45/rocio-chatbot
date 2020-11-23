@@ -8,6 +8,7 @@ import com.wesdom.rocio.database.repositories.ManufacturerRepository;
 import com.wesdom.rocio.model.Manufacturer;
 import com.wesdom.rocio.services.ManufacturerService;
 import com.wesdom.rocio.views.ManufacturerViews;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,16 @@ public class ManufacturerRestController {
     @JsonView(ManufacturerViews.BasicView.class)
     public Manufacturer create(@RequestBody String data) throws JsonProcessingException {
         Manufacturer manufacturer = decode(data);
+        return manufacturerService.create(manufacturer);
+    }
+
+    @PostMapping("/bot")
+    @JsonView(ManufacturerViews.BasicView.class)
+    public Manufacturer createFromBot(@RequestBody String chatBotData) throws JsonProcessingException {
+        JSONObject data = new JSONObject(chatBotData).getJSONObject("variables");
+        System.out.println("!!!data: "+data.toString());
+        Manufacturer manufacturer = new Manufacturer().setNames(data.getString("names")).setLastNames(data.getString("lastNames")).
+                setCommitment(data.getDouble("commitment")).setPhone(data.getString("phone")).setRole(data.getString("role"));
         return manufacturerService.create(manufacturer);
     }
 
