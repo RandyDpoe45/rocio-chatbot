@@ -45,7 +45,12 @@ public class Request {
     @JsonView({
         RequestViews.CreateUpdateView.class, RequestViews.BasicView.class})
     private DiagnosisGroup group;
-    
+
+    @ManyToOne(targetEntity = Manufacturer.class)
+    @JsonView({
+            RequestViews.CreateUpdateView.class, RequestViews.BasicView.class})
+    private Manufacturer manufacturer;
+
     @JsonView({RequestViews.CreateUpdateView.class, RequestViews.BasicView.class})
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date requestDate;
@@ -67,6 +72,8 @@ public class Request {
     private String diseaseTime;
     @JsonView({RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
     private String amountOfPlants;
+
+
     
     
 }

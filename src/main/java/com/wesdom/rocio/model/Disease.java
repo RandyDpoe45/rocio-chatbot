@@ -9,11 +9,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.wesdom.rocio.views.DiagnosisViews;
 import com.wesdom.rocio.views.DiseaseViews;
 import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -44,15 +41,24 @@ public class Disease {
         DiseaseViews.CreateUpdateView.class, DiseaseViews.BasicView.class,
         DiagnosisViews.BasicView.class
     })
+    @Column(length = Integer.MAX_VALUE)
     private String name;
     
     @JsonView({
         DiseaseViews.CreateUpdateView.class, DiseaseViews.BasicView.class,
         DiagnosisViews.BasicView.class
     })
+    @Column(length = Integer.MAX_VALUE)
     private String scientificName;
-    
-    
+
+    @JsonView({
+            DiseaseViews.CreateUpdateView.class, DiseaseViews.BasicView.class,
+            DiagnosisViews.BasicView.class
+    })
+    @Column(length = Integer.MAX_VALUE)
+    private String image;
+
+
     @JsonView({
         DiseaseViews.CreateUpdateView.class, DiseaseViews.BasicView.class
     })

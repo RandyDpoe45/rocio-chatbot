@@ -6,8 +6,10 @@
 package com.wesdom.rocio.servicesimpl;
 
 import com.wesdom.rocio.database.repositories.GroupRepository;
+import com.wesdom.rocio.database.repositories.ManufacturerRepository;
 import com.wesdom.rocio.database.repositories.RequestRepository;
 import com.wesdom.rocio.model.DiagnosisGroup;
+import com.wesdom.rocio.model.Manufacturer;
 import com.wesdom.rocio.model.Request;
 import com.wesdom.rocio.services.RequestService;
 import java.util.Date;
@@ -26,18 +28,23 @@ public class RequestServiceImpl implements RequestService{
     
     @Autowired
     private GroupRepository groupRepository;
+
+    @Autowired
+    private ManufacturerRepository manufacturerRepository;
     
     @Override
     public Request create(Request request) {
         DiagnosisGroup diagnosisGroup = groupRepository.get(1l);
-        request.setRequestDate(new Date()).setGroup(diagnosisGroup);
+        Manufacturer manufacturer = manufacturerRepository.getByPhone(request.getCelNumber());
+        request.setRequestDate(new Date()).setGroup(diagnosisGroup).setManufacturer(manufacturer);
         return requestRepository.create(request);
     }
 
     @Override
     public Request update(Long id, Request request) {
         DiagnosisGroup g = groupRepository.get(request.getGroup().getId());
-        request.setGroup(g);
+        Manufacturer manufacturer = manufacturerRepository.getByPhone(request.getCelNumber());
+        request.setGroup(g).setManufacturer(manufacturer);
         return requestRepository.update(id, request);
     }
     
