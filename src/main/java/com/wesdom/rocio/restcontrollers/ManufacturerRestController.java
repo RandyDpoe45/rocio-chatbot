@@ -53,9 +53,19 @@ public class ManufacturerRestController {
     }
 
     @PostMapping("/bot/get")
-    public WebhookDto getRegisteredManufacturer(@RequestBody String chatBotData){
+    public WebhookDto getRegisteredManufacturer(@RequestParam Map<String,String> requestBody ){
         try{
-            return new WebhookDto();
+            JSONObject request = new JSONObject(requestBody);
+            String phone = request.getString("phone");
+            Manufacturer m = manufacturerRepository.getByPhone(phone);
+            String response = "Usuario creado con la siguiente informacion\n";
+            response += "Nombres: "+m.getNames()+"\n";
+            response += "Apellidos: "+m.getLastNames()+"\n";
+            response += "Rol: "+m.getRole()+"\n";
+            response += "Celular: "+m.getPhone()+"\n";
+            return new WebhookDto().setUser_id(request.getString("user_id")).setBot_id(request.getString("bot_id")).
+                    setBlocked_input(Boolean.TRUE).setChannel(request.getString("channel")).setModule_id(request.getString("module_id")).
+                    setMessage(response);
         }catch (Exception e){
             e.printStackTrace();
             return new WebhookDto();
