@@ -38,12 +38,17 @@ public class ManufacturerRestController {
     @PostMapping("/bot")
     @JsonView(ManufacturerViews.BasicView.class)
     public Manufacturer createFromBot(@RequestBody String chatBotData) throws JsonProcessingException {
-        JSONObject data = new JSONObject(chatBotData).getJSONObject("variables");
-        System.out.println("!!!data: "+data.toString());
-        Manufacturer manufacturer = new Manufacturer().setNames(data.getString("names")).setLastNames(data.getString("lastNames")).
+        try {
+            JSONObject data = new JSONObject(chatBotData).getJSONObject("variables");
+            System.out.println("!!!data: " + data.toString());
+            Manufacturer manufacturer = new Manufacturer().setNames(data.getString("names")).setLastNames(data.getString("lastNames")).
 //                setCommitment(data.getDouble("commitment")).
-                setPhone(data.getString("phone")).setRole(data.getString("role"));
-        return manufacturerService.create(manufacturer);
+        setPhone(data.getString("phone")).setRole(data.getString("role"));
+            return manufacturerService.create(manufacturer);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Manufacturer();
+        }
     }
 
     @GetMapping
