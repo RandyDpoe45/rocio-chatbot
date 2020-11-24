@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,10 +64,11 @@ public class ManufacturerRestController {
             response += "Nombres: "+m.getNames()+"\n";
             response += "Apellidos: "+m.getLastNames()+"\n";
             response += "Rol: "+m.getRole()+"\n";
-            response += "Celular: "+m.getPhone()+"\n";
+            response += "Celular: "+m.getPhone()+"\n\n Continuar?";
+            List<String> suggestedRep = Arrays.asList("si");
             return new WebhookDto().setUser_id(request.getString("user_id")).setBot_id(request.getString("bot_id")).
                     setBlocked_input(Boolean.TRUE).setChannel(request.getString("channel")).setModule_id(request.getString("module_id")).
-                    setMessage(response);
+                    setMessage(response).setSuggested_replies(suggestedRep);
         }catch (Exception e){
             e.printStackTrace();
             return new WebhookDto();
