@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wesdom.rocio.database.repositories.ManufacturerRepository;
+import com.wesdom.rocio.dtos.WebhookDto;
 import com.wesdom.rocio.model.Manufacturer;
 import com.wesdom.rocio.services.ManufacturerService;
 import com.wesdom.rocio.views.ManufacturerViews;
@@ -39,7 +40,7 @@ public class ManufacturerRestController {
     @JsonView(ManufacturerViews.BasicView.class)
     public Manufacturer createFromBot(@RequestBody String chatBotData) throws JsonProcessingException {
         try {
-            JSONObject data = new JSONObject(chatBotData).getJSONObject("variables");
+            JSONObject data = new JSONObject(chatBotData);//.getJSONObject("variables");
             System.out.println("!!!data: " + data.toString());
             Manufacturer manufacturer = new Manufacturer().setNames(data.getString("names")).setLastNames(data.getString("lastNames")).
 //                setCommitment(data.getDouble("commitment")).
@@ -48,6 +49,16 @@ public class ManufacturerRestController {
         }catch (Exception e){
             e.printStackTrace();
             return new Manufacturer();
+        }
+    }
+
+    @PostMapping("/bot/get")
+    public WebhookDto getRegisteredManufacturer(@RequestBody String chatBotData){
+        try{
+            return new WebhookDto();
+        }catch (Exception e){
+            e.printStackTrace();
+            return new WebhookDto();
         }
     }
 
