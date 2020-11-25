@@ -80,10 +80,10 @@ public class DiagnosisServiceImpl implements DiagnosisService {
     }
 
     private String getRequestState(AppUser user, Request request){
-        List<Long> userIds = request.getGroup().getApprentices().stream().map(x -> x.getId()).collect(Collectors.toList());
-        if(user instanceof  Expert){
-            System.out.println("!!!!!!!---------------"+user.getUserId());
+        if(request.getGroup().getExpert().getId().equals(user.getId())){
+            return RequestStatus.AM.name();
         }
+        List<Long> userIds = request.getGroup().getApprentices().stream().map(x -> x.getId()).collect(Collectors.toList());
         List<Diagnosis> diagnosis = diagnosisRepository.getByUserIdAndRequestId(userIds,request.getId());
         if (diagnosis.size() > 0 && diagnosis.size() <userIds.size()){
             return RequestStatus.EP.name();
