@@ -13,7 +13,7 @@ import com.wesdom.rocio.database.repositories.GroupRepository;
 import com.wesdom.rocio.model.DiagnosisGroup;
 import com.wesdom.rocio.services.DiagnosisGroupService;
 import com.wesdom.rocio.views.DiagnosisGroupViews;
-import com.wesdom.rocio.views.RequestViews;
+import com.wesdom.rocio.views.DiagnosisGroupViews;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,20 +46,20 @@ public class DiagnosisGroupRestController {
     private GroupRepository groupRepository;
 
     @PostMapping("")
-    @JsonView(RequestViews.BasicView.class)
+    @JsonView(DiagnosisGroupViews.BasicView.class)
     public DiagnosisGroup create(@RequestBody String data) throws JsonProcessingException {
         DiagnosisGroup diagnosisGroup = decode(data);
         return diagnosisGroupService.create(diagnosisGroup);
     }
 
     @GetMapping
-    @JsonView(RequestViews.BasicView.class)
+    @JsonView(DiagnosisGroupViews.BasicView.class)
     public Page<DiagnosisGroup> getAll(@RequestParam Map<String, String> queryParams) {
         return groupRepository.getAll(queryParams);
     }
 
     @PutMapping("/{id}")
-    @JsonView(RequestViews.BasicView.class)
+    @JsonView(DiagnosisGroupViews.BasicView.class)
     public DiagnosisGroup update(@PathVariable Long id, @RequestBody String data) {
         DiagnosisGroup r = null;
         try {
