@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.wesdom.rocio.views.ProductViews;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,12 +32,14 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView({
-        DiseaseViews.CreateUpdateView.class, DiseaseViews.BasicView.class
+        DiseaseViews.CreateUpdateView.class, DiseaseViews.BasicView.class,
+        ProductViews.CreateUpdateView.class,ProductViews.BasicView.class
     })
     private Long id;
     
     @JsonView({
-        DiseaseViews.CreateUpdateView.class, DiseaseViews.BasicView.class
+        DiseaseViews.CreateUpdateView.class, DiseaseViews.BasicView.class,
+        ProductViews.CreateUpdateView.class,ProductViews.BasicView.class
     })
     private String name;
     
