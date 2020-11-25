@@ -54,7 +54,7 @@ public class DiagnosisServiceImpl implements DiagnosisService {
         diagnosis.setDiseases(diseases).setTreatments(treatments).setUser(user).setRequest(request);
         Diagnosis d  = diagnosisRepository.create(diagnosis);
         if(!Arrays.asList(RequestStatus.PD.name(),RequestStatus.AM.name(),RequestStatus.AA.name()).contains(request.getStatus())){
-            String requestStatus = getRequestState(request.getGroup().getApprentices(),request);
+            String requestStatus = getRequestState(user,request);
             request.setStatus(requestStatus);
             requestRepository.create(request);
         }
@@ -72,15 +72,18 @@ public class DiagnosisServiceImpl implements DiagnosisService {
         diagnosis.setDiseases(diseases).setTreatments(treatments).setUser(user).setRequest(request);
         Diagnosis d  = diagnosisRepository.update(id,diagnosis);
         if(!Arrays.asList(RequestStatus.PD.name(),RequestStatus.AM.name(),RequestStatus.AA.name()).contains(request.getStatus())){
-            String requestStatus = getRequestState(request.getGroup().getApprentices(),request);
+            String requestStatus = getRequestState(user,request);
             request.setStatus(requestStatus);
             requestRepository.create(request);
         }
         return d;
     }
 
-    private String getRequestState(List<Apprentice> users, Request request){
-        List<Long> userIds = users.stream().map(x -> x.getId()).collect(Collectors.toList());
+    private String getRequestState(AppUser user, Request request){
+        List<Long> userIds = request.getGroup().getApprentices().stream().map(x -> x.getId()).collect(Collectors.toList());
+        if(user instanceof  Expert){
+            System.out.println("!!!!!!!---------------"+user.getUserId());
+        }
         List<Diagnosis> diagnosis = diagnosisRepository.getByUserIdAndRequestId(userIds,request.getId());
         if (diagnosis.size() > 0 && diagnosis.size() <userIds.size()){
             return RequestStatus.EP.name();
