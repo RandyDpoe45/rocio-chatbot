@@ -42,7 +42,7 @@ public class GroupRepositoryImpl implements GroupRepository{
     public DiagnosisGroup update(Long id, DiagnosisGroup group) {
         DiagnosisGroup g =groupJpaRepository.getOne(id);
         g.setApprentices(group.getApprentices()).setExpert(group.getExpert()).
-                setName(group.getName());
+                setName(group.getName()).setKnowledgeAreas(group.getKnowledgeAreas());
         return  groupJpaRepository.save(g);
     }
 

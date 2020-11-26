@@ -59,15 +59,7 @@ public class AppUser {
         ExpertViews.CreateUpdateView.class, ExpertViews.BasicView.class,
         ApprenticeViews.CreateUpdateView.class, ApprenticeViews.BasicView.class
     })
-    private Double effectiveness; 
-    
-    @ManyToMany(targetEntity = KnowledgeArea.class)
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
-    @JsonView({
-        ExpertViews.CreateUpdateView.class, ExpertViews.BasicView.class,
-        ApprenticeViews.CreateUpdateView.class, ApprenticeViews.BasicView.class
-    })
-    private List<KnowledgeArea> knowledgeAreas;
+    private Double effectiveness;
     
     @JsonView({
         ExpertViews.CreateUpdateView.class, ExpertViews.BasicView.class,

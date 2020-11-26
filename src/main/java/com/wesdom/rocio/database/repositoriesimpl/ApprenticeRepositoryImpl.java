@@ -43,7 +43,7 @@ public class ApprenticeRepositoryImpl implements ApprenticeRepository{
     public Apprentice update(Long id, Apprentice apprentice) {
         Apprentice app = apprenticeJpaRepository.getOne(id);
         app.setDiagnosisAsig(apprentice.getDiagnosisAsig()).setEffectiveness(apprentice.getEffectiveness()).
-                setKnowledgeAreas(apprentice.getKnowledgeAreas()).setUserId(apprentice.getUserId());
+                setUserId(apprentice.getUserId());
         return apprenticeJpaRepository.save(app);
     }
 

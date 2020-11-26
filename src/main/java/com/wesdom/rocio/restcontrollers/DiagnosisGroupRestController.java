@@ -60,14 +60,10 @@ public class DiagnosisGroupRestController {
 
     @PutMapping("/{id}")
     @JsonView(DiagnosisGroupViews.BasicView.class)
-    public DiagnosisGroup update(@PathVariable Long id, @RequestBody String data) {
-        DiagnosisGroup r = null;
-        try {
+    public DiagnosisGroup update(@PathVariable Long id, @RequestBody String data) throws JsonProcessingException {
+        DiagnosisGroup
             r = decode(data);
             r = diagnosisGroupService.update(id, r);
-        } catch (JsonProcessingException ex) {
-            Logger.getLogger(RequestRestController.class.getName()).log(Level.SEVERE, null, ex);
-        }
         return r;
     }
 

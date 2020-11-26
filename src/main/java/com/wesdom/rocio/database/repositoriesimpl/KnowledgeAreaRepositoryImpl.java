@@ -42,7 +42,9 @@ public class KnowledgeAreaRepositoryImpl implements KnowledgeAreaRepository {
 
     @Override
     public KnowledgeArea update(Long id, KnowledgeArea knowledgeArea) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        KnowledgeArea ka = knowledgeAreaJpaRepository.getOne(id);
+        ka.setDescription(knowledgeArea.getDescription()).setName(knowledgeArea.getName());
+        return knowledgeAreaJpaRepository.save(ka);
     }
 
     @Override

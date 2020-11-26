@@ -42,8 +42,7 @@ public class ExpertRepositoryImpl implements ExpertRepository{
     @Override
     public Expert update(Long id, Expert expert) {
         Expert e = expertJpaRepository.getOne(id);
-        e.setDiagnosisAsig(expert.getDiagnosisAsig()).setEffectiveness(expert.getEffectiveness()).setUserId(expert.getUserId()).
-                setKnowledgeAreas(expert.getKnowledgeAreas());
+        e.setDiagnosisAsig(expert.getDiagnosisAsig()).setEffectiveness(expert.getEffectiveness()).setUserId(expert.getUserId());
         return expertJpaRepository.save(expert);
     }
 

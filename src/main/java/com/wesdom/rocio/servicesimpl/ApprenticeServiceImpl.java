@@ -31,17 +31,11 @@ public class ApprenticeServiceImpl implements ApprenticeService {
     
     @Override
     public Apprentice create(Apprentice apprentice) {
-        List<KnowledgeArea> knowledgeAreas = knowledgeAreaRepository.getAllById(
-                apprentice.getKnowledgeAreas().stream().map(x -> x.getId()).collect(Collectors.toList()));
-        apprentice.setKnowledgeAreas(knowledgeAreas);
         return apprenticeRepository.create(apprentice);
     }
 
     @Override
     public Apprentice update(Long id, Apprentice apprentice) {
-        List<KnowledgeArea> knowledgeAreas = knowledgeAreaRepository.getAllById(
-                apprentice.getKnowledgeAreas().stream().map(x -> x.getId()).collect(Collectors.toList()));
-        apprentice.setKnowledgeAreas(knowledgeAreas);
         return apprenticeRepository.update(id,apprentice);
     }
 }

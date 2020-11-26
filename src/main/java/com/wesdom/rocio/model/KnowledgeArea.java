@@ -7,11 +7,14 @@ package com.wesdom.rocio.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.wesdom.rocio.views.ApprenticeViews;
+import com.wesdom.rocio.views.DiagnosisGroupViews;
 import com.wesdom.rocio.views.ExpertViews;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.wesdom.rocio.views.KnowledgeAreaViews;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,20 +34,21 @@ public class KnowledgeArea {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView({
-        ExpertViews.CreateUpdateView.class, ExpertViews.BasicView.class,
-        ApprenticeViews.CreateUpdateView.class, ApprenticeViews.BasicView.class
+        KnowledgeAreaViews.CreateUpdateView.class, KnowledgeAreaViews.BasicView.class,
+        DiagnosisGroupViews.CreateUpdateView.class, DiagnosisGroupViews.BasicView.class
     })
     private Long id;
     
     @JsonView({
-        ExpertViews.BasicView.class,
-        ApprenticeViews.BasicView.class
+        KnowledgeAreaViews.CreateUpdateView.class, KnowledgeAreaViews.BasicView.class,
+        DiagnosisGroupViews.BasicView.class
     })
     private String name;
-    
+
+    @JsonView({
+        KnowledgeAreaViews.CreateUpdateView.class, KnowledgeAreaViews.BasicView.class,
+    })
     private String description;
-    
-//    private String 
-    
+
     
 }

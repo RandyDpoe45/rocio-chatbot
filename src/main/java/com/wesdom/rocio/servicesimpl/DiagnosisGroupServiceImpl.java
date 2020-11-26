@@ -7,9 +7,15 @@ package com.wesdom.rocio.servicesimpl;
 
 import com.wesdom.rocio.database.repositories.GroupRepository;
 import com.wesdom.rocio.model.DiagnosisGroup;
+import com.wesdom.rocio.model.KnowledgeArea;
 import com.wesdom.rocio.services.DiagnosisGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -18,19 +24,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class DiagnosisGroupServiceImpl implements DiagnosisGroupService {
 
-//    @Autowired
-//    private Expert
     @Autowired
     private GroupRepository groupRepository;
-            
+
+    @PersistenceContext
+    private EntityManager em;
+
     @Override
     public DiagnosisGroup create(DiagnosisGroup group) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DiagnosisGroup g = groupRepository.create(group);
+        em.refresh(g);
+        return g;
     }
 
     @Override
     public DiagnosisGroup update(Long id, DiagnosisGroup group) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DiagnosisGroup g = groupRepository.update(id,group);
+        em.refresh(g);
+        return g;
     }
     
 }

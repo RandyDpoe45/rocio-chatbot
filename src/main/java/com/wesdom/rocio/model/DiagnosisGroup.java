@@ -6,7 +6,9 @@
 package com.wesdom.rocio.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.wesdom.rocio.views.ApprenticeViews;
 import com.wesdom.rocio.views.DiagnosisGroupViews;
+import com.wesdom.rocio.views.ExpertViews;
 import com.wesdom.rocio.views.RequestViews;
 import java.util.List;
 import javax.persistence.Entity;
@@ -42,13 +44,20 @@ public class DiagnosisGroup {
     @JsonView({RequestViews.BasicView.class,
         DiagnosisGroupViews.CreateUpdateView.class, DiagnosisGroupViews.BasicView.class})
     private String name;
-    
+
+    @ManyToMany(targetEntity = KnowledgeArea.class)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @JsonView({
+            DiagnosisGroupViews.CreateUpdateView.class, DiagnosisGroupViews.BasicView.class
+    })
+    private List<KnowledgeArea> knowledgeAreas;
+
     @ManyToOne(targetEntity = Expert.class)
     @JsonView({
         DiagnosisGroupViews.CreateUpdateView.class, DiagnosisGroupViews.BasicView.class
     })
     private Expert expert;
-    
+
     @ManyToMany(targetEntity = Apprentice.class)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JsonView({

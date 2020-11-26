@@ -30,17 +30,11 @@ public class ExpertServiceImpl implements ExpertService {
     
     @Override
     public Expert create(Expert expert) {
-        List<KnowledgeArea> knowledgeAreas = knowledgeAreaRepository.getAllById(
-                expert.getKnowledgeAreas().stream().map(x -> x.getId()).collect(Collectors.toList()));
-        expert.setKnowledgeAreas(knowledgeAreas);
         return expertRepository.create(expert);
     }
 
     @Override
     public Expert update(Long id, Expert expert) {
-        List<KnowledgeArea> knowledgeAreas = knowledgeAreaRepository.getAllById(
-                expert.getKnowledgeAreas().stream().map(x -> x.getId()).collect(Collectors.toList()));
-        expert.setKnowledgeAreas(knowledgeAreas);
         return expertRepository.update(id,expert);
     }
     
