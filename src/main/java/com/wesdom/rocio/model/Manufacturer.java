@@ -43,5 +43,30 @@ public class Manufacturer {
     private String role;
 
     @JsonView({ManufacturerViews.CreateUpdateView.class, ManufacturerViews.BasicView.class})
+    private String prodType;
+
+    @JsonView({ManufacturerViews.CreateUpdateView.class, ManufacturerViews.BasicView.class})
     private Double commitment;
+
+    @JsonView({ManufacturerViews.CreateUpdateView.class, ManufacturerViews.BasicView.class})
+    private String departmentName;
+
+    @JsonView({ManufacturerViews.CreateUpdateView.class, ManufacturerViews.BasicView.class})
+    private String municipalityName;
+
+    @JsonView({ManufacturerViews.CreateUpdateView.class, ManufacturerViews.BasicView.class})
+    private String plantationName;
+
+    @JsonView({ManufacturerViews.CreateUpdateView.class, ManufacturerViews.BasicView.class})
+    private String idType;
+
+    @JsonView({ManufacturerViews.CreateUpdateView.class, ManufacturerViews.BasicView.class})
+    private String idNumber;
+
+    @JsonView({ManufacturerViews.CreateUpdateView.class, ManufacturerViews.BasicView.class})
+    private String gender;
+
+    @JsonView({ManufacturerViews.CreateUpdateView.class, ManufacturerViews.BasicView.class})
+    private Integer age;
+
 }
