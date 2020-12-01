@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @Service
 public class ManufacturerRepositoryImpl implements ManufacturerRepository {
@@ -33,10 +34,10 @@ public class ManufacturerRepositoryImpl implements ManufacturerRepository {
     @Override
     public Manufacturer update(Long id, Manufacturer manufacturer) {
         Manufacturer m = manufacturerJpaRepository.getOne(id);
-        m.setPhone(manufacturer.getPhone()).setCommitment(manufacturer.getCommitment()).setRole(manufacturer.getRole()).
-                setAge(manufacturer.getAge()).setGender(manufacturer.getGender()).setDepartmentName(manufacturer.getDepartmentName())
+        m.setPhone(manufacturer.getPhone()).setCommitment(manufacturer.getCommitment()).setRole(manufacturer.getRole())
+                .setAge(manufacturer.getAge()).setGender(manufacturer.getGender()).setDepartmentName(manufacturer.getDepartmentName())
                 .setMunicipalityName(manufacturer.getMunicipalityName()).setIdType(manufacturer.getIdType()).setIdNumber(manufacturer.getIdNumber())
-                .setAge(manufacturer.getAge()).setPlantationName(manufacturer.getPlantationName()).setProdType(manufacturer.getProdType());
+                .setPlantationName(manufacturer.getPlantationName()).setProdType(manufacturer.getProdType());
         return manufacturerJpaRepository.save(m);
     }
 

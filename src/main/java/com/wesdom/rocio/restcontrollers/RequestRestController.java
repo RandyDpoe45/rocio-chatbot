@@ -9,8 +9,10 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wesdom.rocio.database.repositories.ImageDescriptorRepository;
 import com.wesdom.rocio.database.repositories.RequestRepository;
 import com.wesdom.rocio.dtos.WebhookDto;
+import com.wesdom.rocio.model.ImageDescriptor;
 import com.wesdom.rocio.model.Request;
 import com.wesdom.rocio.services.RequestService;
 import com.wesdom.rocio.views.RequestViews;
@@ -19,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.json.JSONArray;
@@ -52,6 +56,9 @@ public class RequestRestController {
     @Autowired
     private RequestRepository requestRepository;
 
+    @Autowired
+    private ImageDescriptorRepository imageDescriptorRepository;
+
     @PostMapping("")
     @JsonView(RequestViews.BasicView.class)
     public Request create(@RequestBody String chatBotData) {
@@ -61,7 +68,14 @@ public class RequestRestController {
             Request r = new Request().setAmountOfPlants(data.getString("amountOfPlants")).setCelNumber(data.getString("celNumber")).
                     setDescription(data.getString("description")).setDiseaseTime(data.getString("diseaseTime")).setEmail(data.getString("email")).
                     setProduct(data.getString("product")).setStatus("EE").setVariety(data.getString("variety"));
-            return requestService.create(r);
+            r = requestService.create(r);
+            String images = data.getString("images");
+            Pattern p = Pattern.compile("(http|ftp|https)://([\\w_-]+(?:(?:\\.[\\w_-]+)+))([\\w.,@?^=%&:/~+#-]*[\\w@?^=%&/~+#-])?");
+            Matcher m = p.matcher(images);
+            while(m.find()){
+                imageDescriptorRepository.create(new ImageDescriptor().setImageLink(m.group()).setRequest(r));
+            }
+            return r;
         } catch (Exception e) {
             e.printStackTrace();
             return new Request();

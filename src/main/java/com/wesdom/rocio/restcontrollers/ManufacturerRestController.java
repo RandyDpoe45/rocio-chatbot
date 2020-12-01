@@ -62,19 +62,22 @@ public class ManufacturerRestController {
             JSONObject request = new JSONObject(requestBody);
             String phone = request.getString("phone");
             Manufacturer m = manufacturerRepository.getByPhone(phone);
-            String response = "El Usuario posee la siguiente informacion\n";
-            response += "Nombres: "+(m.getNames() != null? m.getNames() : "")+"\n";
-            response += "Apellidos: "+(m.getLastNames() != null? m.getLastNames() : "")+"\n";
-            response += "Celular: "+(m.getPhone() != null? m.getPhone() : "")+"\n";
-            response += "Edad: "+(m.getAge() != null ? m.getAge() : "")+"\n";
-            response += "Genero: "+(m.getGender() != null ? m.getGender() : "")+"\n";
-            response += "Tipo de documento: "+(m.getIdType() != null ? m.getIdType() : "")+"\n";
-            response += "Numero documento: "+(m.getIdNumber() != null ? m.getIdNumber() : "")+"\n";
-            response += "Rol: "+(m.getRole() != null ? m.getRole() : "")+"\n";
-            response += "Tipo produccion: "+(m.getProdType() != null ? m.getProdType() : "")+"\n";
-            response += "Departamento: "+(m.getDepartmentName() != null ? m.getDepartmentName() : "")+"\n";
-            response += "Municipio: "+(m.getMunicipalityName() !=null ? m.getMunicipalityName(): "")+"\n";
-            response += "Vereda: "+(m.getPlantationName() != null ? m.getPlantationName() : "")+"\n\n Continuar?";
+            String response = m!= null ? "El Usuario posee la siguiente informacion\n" : "El usuario no pudo ser creado";
+            if(m != null) {
+                response += "Nombres: " + (m.getNames() != null ? m.getNames() : "") + "\n";
+                response += "Apellidos: " + (m.getLastNames() != null ? m.getLastNames() : "") + "\n";
+                response += "Celular: " + (m.getPhone() != null ? m.getPhone() : "") + "\n";
+                response += "Edad: " + (m.getAge() != null ? m.getAge() : "") + "\n";
+                response += "Genero: " + (m.getGender() != null ? m.getGender() : "") + "\n";
+                response += "Tipo de documento: " + (m.getIdType() != null ? m.getIdType() : "") + "\n";
+                response += "Numero documento: " + (m.getIdNumber() != null ? m.getIdNumber() : "") + "\n";
+                response += "Rol: " + (m.getRole() != null ? m.getRole() : "") + "\n";
+                response += "Tipo produccion: " + (m.getProdType() != null ? m.getProdType() : "") + "\n";
+                response += "Departamento: " + (m.getDepartmentName() != null ? m.getDepartmentName() : "") + "\n";
+                response += "Municipio: " + (m.getMunicipalityName() != null ? m.getMunicipalityName() : "") + "\n";
+                response += "Vereda: " + (m.getPlantationName() != null ? m.getPlantationName() : "");
+            }
+            response+= "\n\nContinuar?";
             List<String> suggestedRep = Arrays.asList("si");
             return new WebhookDto().setUser_id(request.getString("user_id")).setBot_id(request.getString("bot_id")).
                     setBlocked_input(Boolean.TRUE).setChannel(request.getString("channel")).setModule_id(request.getString("module_id")).
