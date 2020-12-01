@@ -70,6 +70,7 @@ public class RequestRestController {
                     setProduct(data.getString("product")).setStatus("EE").setVariety(data.getString("variety"));
             r = requestService.create(r);
             String images = data.getString("images");
+            System.out.println("!!!images "+images);
             Pattern p = Pattern.compile("(http|ftp|https)://([\\w_-]+(?:(?:\\.[\\w_-]+)+))([\\w.,@?^=%&:/~+#-]*[\\w@?^=%&/~+#-])?");
             Matcher m = p.matcher(images);
             while(m.find()){
