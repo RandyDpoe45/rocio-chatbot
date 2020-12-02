@@ -60,5 +60,10 @@ public class Diagnosis {
         DiagnosisViews.CreateUpdateView.class,DiagnosisViews.BasicView.class
     })
     private AppUser user;
+
+    @JsonView({
+        DiagnosisViews.CreateUpdateView.class,DiagnosisViews.BasicView.class
+    })
+    private String comments;
     
 }
