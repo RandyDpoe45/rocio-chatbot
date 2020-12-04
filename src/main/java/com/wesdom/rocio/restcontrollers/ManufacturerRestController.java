@@ -90,11 +90,12 @@ public class ManufacturerRestController {
 
     @PostMapping("/bot/get/conf")
     public WebhookDto getRegisteredManufacturerConf(@RequestParam Map<String,String> requestBody ){
+        System.out.println("!!!!!!!!-----------");
         try{
             JSONObject request = new JSONObject(requestBody);
             String phone = request.getString("phone");
             Manufacturer m = manufacturerRepository.getByPhone(phone);
-            System.out.println(phone);
+            System.out.println("!!!!!!!!-----------"+phone);
             List<String> suggestedRep;
             String response = m!= null ? "Es usted \n" : "Parece que usted no esta registrado en el sistema";
             if(m != null) {
