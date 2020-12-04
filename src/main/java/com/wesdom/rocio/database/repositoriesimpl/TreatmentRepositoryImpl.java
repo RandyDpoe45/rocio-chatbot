@@ -42,8 +42,9 @@ public class TreatmentRepositoryImpl implements TreatmentRepository {
     @Override
     public Treatment update(Long id, Treatment treatment) {
         Treatment t = treatmentJpaRepository.getOne(id);
-        return t.setPreparation(treatment.getPreparation()).setBiological
+        t.setPreparation(treatment.getPreparation()).setName(treatment.getName()).setBiological
         (treatment.getBiological()).setType(treatment.getType());
+        return treatmentJpaRepository.save(t);
     }
 
     @Override

@@ -50,8 +50,7 @@ public class TreatmentRestController {
     @PutMapping("/{id}")
     @JsonView(TreatmentViews.BasicView.class)
     public Treatment update(@PathVariable Long id, @RequestBody String data) throws JsonProcessingException {
-        Treatment
-                r = decode(data);
+        Treatment r = decode(data);
         r = treatmentRepository.update(id, r);
         return r;
     }
