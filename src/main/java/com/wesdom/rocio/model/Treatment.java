@@ -45,6 +45,13 @@ public class Treatment {
         DiagnosisViews.BasicView.class
     })
     private String type;
+
+    @JsonView({
+            TreatmentViews.CreateUpdateView.class,TreatmentViews.BasicView.class,
+            DiseaseViews.BasicView.class,
+            DiagnosisViews.BasicView.class
+    })
+    private String name;
     
     @JsonView({
         TreatmentViews.CreateUpdateView.class,TreatmentViews.BasicView.class,
