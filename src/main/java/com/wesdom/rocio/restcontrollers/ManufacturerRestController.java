@@ -88,6 +88,35 @@ public class ManufacturerRestController {
         }
     }
 
+    @PostMapping("/bot/get/conf")
+    public WebhookDto getRegisteredManufacturerConf(@RequestParam Map<String,String> requestBody ){
+        try{
+            JSONObject request = new JSONObject(requestBody);
+            String phone = request.getString("phone");
+            Manufacturer m = manufacturerRepository.getByPhone(phone);
+            List<String> suggestedRep;
+            String response = m!= null ? "Es usted \n" : "Parece que usted no esta registrado en el sistema";
+            if(m != null) {
+                response += "Nombres: " + (m.getNames() != null ? m.getNames() : "") + "\n";
+                response += "Apellidos: " + (m.getLastNames() != null ? m.getLastNames() : "") + "\n";
+                response += "Tipo de documento: " + (m.getIdType() != null ? m.getIdType() : "") + "\n";
+                response += "Numero documento: " + (m.getIdNumber() != null ? m.getIdNumber() : "") + "\n";
+                response+= "\n\nContinuar?";
+                suggestedRep = Arrays.asList("si","no");
+            }else{
+                response+= "\n\nRegistrarse?";
+                suggestedRep = Arrays.asList("realizar registro");
+            }
+
+            return new WebhookDto().setUser_id(request.getString("user_id")).setBot_id(request.getString("bot_id")).
+                    setBlocked_input(Boolean.TRUE).setChannel(request.getString("channel")).setModule_id(request.getString("module_id")).
+                    setMessage(response).setSuggested_replies(suggestedRep);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new WebhookDto();
+        }
+    }
+
     @GetMapping
     @JsonView(ManufacturerViews.BasicView.class)
     public Page<Manufacturer> getAll(@RequestParam Map<String, String> queryParams) {
