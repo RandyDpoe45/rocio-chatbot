@@ -94,6 +94,7 @@ public class ManufacturerRestController {
             JSONObject request = new JSONObject(requestBody);
             String phone = request.getString("phone");
             Manufacturer m = manufacturerRepository.getByPhone(phone);
+            System.out.println(phone);
             List<String> suggestedRep;
             String response = m!= null ? "Es usted \n" : "Parece que usted no esta registrado en el sistema";
             if(m != null) {
