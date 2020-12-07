@@ -64,7 +64,7 @@ public class PlantationRestController {
             if(!plantations.isEmpty()) {
                 for(Plantation p : plantations){
                     String s = "";
-                    s += "Numero finca: #"+p.getName()+"#\n";
+                    s += "Numero finca: #"+p.getId()+"#\n";
                     s += "Nombre finca: " + (p.getName() != null ? p.getName() : "") + "\n";
                     suggestedRep.add(s);
                 }

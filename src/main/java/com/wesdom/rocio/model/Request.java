@@ -51,6 +51,11 @@ public class Request {
             RequestViews.CreateUpdateView.class, RequestViews.BasicView.class})
     private Manufacturer manufacturer;
 
+    @ManyToOne(targetEntity = Plantation.class)
+    @JsonView({
+            RequestViews.CreateUpdateView.class, RequestViews.BasicView.class})
+    private Plantation plantation;
+
     @JsonView({RequestViews.CreateUpdateView.class, RequestViews.BasicView.class})
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date requestDate;

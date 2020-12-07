@@ -10,9 +10,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wesdom.rocio.database.repositories.ImageDescriptorRepository;
+import com.wesdom.rocio.database.repositories.PlantationRepository;
 import com.wesdom.rocio.database.repositories.RequestRepository;
 import com.wesdom.rocio.dtos.WebhookDto;
 import com.wesdom.rocio.model.ImageDescriptor;
+import com.wesdom.rocio.model.Plantation;
 import com.wesdom.rocio.model.Request;
 import com.wesdom.rocio.services.RequestService;
 import com.wesdom.rocio.views.RequestViews;
@@ -59,20 +61,30 @@ public class RequestRestController {
     @Autowired
     private ImageDescriptorRepository imageDescriptorRepository;
 
+    @Autowired
+    private PlantationRepository plantationRepository;
+
     @PostMapping("")
     @JsonView(RequestViews.BasicView.class)
     public Request create(@RequestBody String chatBotData) {
         try {
             JSONObject data = new JSONObject(chatBotData).getJSONObject("variables");
             System.out.println("!!!data: "+data.toString());
+            Pattern p = Pattern.compile("#([0-9]+)#");
+            Matcher m = p.matcher(data.getString("plantation"));m.find();
+            Plantation plantation = null;
+            if(m.find()){
+                plantation = plantationRepository.get(Long.parseLong(m.group()));
+            }
             Request r = new Request().setAmountOfPlants(data.getString("amountOfPlants")).setCelNumber(data.getString("celNumber")).
                     setDescription(data.getString("description")).setDiseaseTime(data.getString("diseaseTime")).setEmail(data.getString("email")).
-                    setProduct(data.getString("product")).setStatus("EE").setVariety(data.getString("variety"));
+                    setProduct(data.getString("product")).setStatus("EE").setVariety(data.getString("variety")).setPlantation(plantation);
+
             r = requestService.create(r);
             String images = data.getString("images");
             System.out.println("!!!images "+images);
-            Pattern p = Pattern.compile("(http|ftp|https)://([\\w_-]+(?:(?:\\.[\\w_-]+)+))([\\w.,@?^=%&:/~+#-]*[\\w@?^=%&/~+#-])?");
-            Matcher m = p.matcher(images);
+            p = Pattern.compile("(http|ftp|https)://([\\w_-]+(?:(?:\\.[\\w_-]+)+))([\\w.,@?^=%&:/~+#-]*[\\w@?^=%&/~+#-])?");
+            m = p.matcher(images);
             while(m.find()){
                 imageDescriptorRepository.create(new ImageDescriptor().setImageLink(m.group()).setRequest(r));
             }
