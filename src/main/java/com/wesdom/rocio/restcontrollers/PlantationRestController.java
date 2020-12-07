@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wesdom.rocio.database.repositories.ManufacturerRepository;
 import com.wesdom.rocio.database.repositories.PlantationRepository;
+import com.wesdom.rocio.dtos.WebhookDto;
 import com.wesdom.rocio.model.Manufacturer;
 import com.wesdom.rocio.model.Request;
 import com.wesdom.rocio.model.Plantation;
@@ -16,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @CrossOrigin(origins = {"*"})
@@ -45,6 +46,39 @@ public class PlantationRestController {
         } catch (Exception e) {
             e.printStackTrace();
             return new Plantation();
+        }
+    }
+
+    @PostMapping("/bot/get/conf")
+    public WebhookDto getRegisteredManufacturerConf(@RequestParam Map<String,String> requestBody ){
+        System.out.println("!!!!!!!!-----------");
+        try{
+            JSONObject request = new JSONObject(requestBody);
+            String phone = request.getString("phone");
+            Map<String,String> queryParams = new HashMap<>();
+            queryParams.put("manufacturer.phone",phone);
+            Page<Plantation> plantations = plantationRepository.getAll(queryParams);
+            System.out.println("!!!!!!!!-----------"+phone);
+            List<String> suggestedRep = new ArrayList<>();
+            String response = !plantations.isEmpty() ? "Seleccione la finca para la cual quiere realizar la consulta \n" : "Parece que usted no tiene ninguna finca registrado en el sistema";
+            if(!plantations.isEmpty()) {
+                for(Plantation p : plantations){
+                    String s = "";
+                    s += "Numero finca: #"+p.getName()+"#\n";
+                    s += "Nombre finca: " + (p.getName() != null ? p.getName() : "") + "\n";
+                    suggestedRep.add(s);
+                }
+            }else{
+                response+= "\n\nRegistrarse?";
+                suggestedRep = Arrays.asList("registrar finca");
+            }
+
+            return new WebhookDto().setUser_id(request.getString("user_id")).setBot_id(request.getString("bot_id")).
+                    setBlocked_input(Boolean.TRUE).setChannel(request.getString("channel")).setModule_id(request.getString("module_id")).
+                    setMessage(response).setSuggested_replies(suggestedRep);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new WebhookDto();
         }
     }
 
