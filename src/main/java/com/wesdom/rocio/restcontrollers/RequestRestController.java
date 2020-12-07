@@ -77,7 +77,7 @@ public class RequestRestController {
                 plantation = plantationRepository.get(Long.parseLong(m.group()));
             }
             Request r = new Request().setAmountOfPlants(data.getString("amountOfPlants")).setCelNumber(data.getString("celNumber")).
-                    setDescription(data.getString("description")).setDiseaseTime(data.getString("diseaseTime")).setEmail(data.getString("email")).
+                    setDescription(data.getString("description")).setDiseaseTime(data.getString("diseaseTime")).
                     setProduct(data.getString("product")).setStatus("EE").setVariety(data.getString("variety")).setPlantation(plantation);
 
             r = requestService.create(r);
