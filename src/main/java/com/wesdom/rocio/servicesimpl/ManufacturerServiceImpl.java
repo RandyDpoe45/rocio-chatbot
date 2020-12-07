@@ -14,11 +14,19 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 
     @Override
     public Manufacturer create(Manufacturer manufacturer) {
-        return manufacturerRepository.create(manufacturer);
+        Manufacturer m = manufacturerRepository.getByPhone(manufacturer.getPhone());
+        if(m == null){
+            return manufacturerRepository.create(manufacturer);
+        }
+        return manufacturer;
     }
 
     @Override
     public Manufacturer update(Long id, Manufacturer manufacturer) {
-        return manufacturerRepository.update(id,manufacturer);
+        Manufacturer m = manufacturerRepository.getByPhone(manufacturer.getPhone());
+        if(m == null){
+            return manufacturerRepository.update(id,manufacturer);
+        }
+        return manufacturer;
     }
 }
