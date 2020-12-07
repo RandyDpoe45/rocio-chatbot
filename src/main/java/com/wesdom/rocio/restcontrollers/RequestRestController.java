@@ -74,7 +74,9 @@ public class RequestRestController {
             Matcher m = p.matcher(data.getString("plantation"));m.find();
             Plantation plantation = null;
             if(m.find()){
-                plantation = plantationRepository.get(Long.parseLong(m.group()));
+                String s = m.group();
+                System.out.println("!!!!!idPlantation: "+s);
+                plantation = plantationRepository.get(Long.parseLong(s));
             }
             Request r = new Request().setAmountOfPlants(data.getString("amountOfPlants")).setCelNumber(data.getString("celNumber")).
                     setDescription(data.getString("description")).setDiseaseTime(data.getString("diseaseTime")).
