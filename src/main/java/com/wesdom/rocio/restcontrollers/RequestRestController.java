@@ -74,7 +74,7 @@ public class RequestRestController {
             Matcher m = p.matcher(data.getString("plantation"));
             Plantation plantation = null;
             if(m.find()){
-                String s = m.group();
+                String s = m.group().replace("#","").trim();
                 System.out.println("!!!!!idPlantation: "+s);
                 plantation = plantationRepository.get(Long.parseLong(s));
             }
