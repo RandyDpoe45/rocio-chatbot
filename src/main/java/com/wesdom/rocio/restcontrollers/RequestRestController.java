@@ -70,7 +70,7 @@ public class RequestRestController {
         try {
             JSONObject data = new JSONObject(chatBotData).getJSONObject("variables");
             System.out.println("!!!data: "+data.toString());
-            Pattern p = Pattern.compile("#([0-9]+)#");
+            Pattern p = Pattern.compile("\\#([0-9]+)\\#");
             Matcher m = p.matcher(data.getString("plantation"));m.find();
             Plantation plantation = null;
             if(m.find()){
