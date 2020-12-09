@@ -85,9 +85,9 @@ public class DiagnosisServiceImpl implements DiagnosisService {
         }
         List<Long> userIds = request.getGroup().getApprentices().stream().map(x -> x.getId()).collect(Collectors.toList());
         List<Diagnosis> diagnosis = diagnosisRepository.getByUserIdAndRequestId(userIds,request.getId());
-        if (diagnosis.size() > 0 && diagnosis.size() <userIds.size()){
+        if (diagnosis.size() > 0 && diagnosis.size() < request.getGroup().getMinimumResponses()){
             return RequestStatus.EP.name();
-        }else if(diagnosis.size() == userIds.size()){
+        }else if(diagnosis.size() >= request.getGroup().getMinimumResponses()){
             Diagnosis diag = diagnosis.get(0);
             for(Diagnosis d : diagnosis){
                 List<Treatment> treatments = d.getTreatments();

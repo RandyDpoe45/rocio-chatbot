@@ -53,6 +53,7 @@ public class DiagnosisGroup {
     private List<KnowledgeArea> knowledgeAreas;
 
     @ManyToOne(targetEntity = Expert.class)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JsonView({
         DiagnosisGroupViews.CreateUpdateView.class, DiagnosisGroupViews.BasicView.class
     })
@@ -64,6 +65,10 @@ public class DiagnosisGroup {
         DiagnosisGroupViews.CreateUpdateView.class, DiagnosisGroupViews.BasicView.class
     })
     private List<Apprentice> apprentices;
-    
+
+    @JsonView({
+        DiagnosisGroupViews.CreateUpdateView.class, DiagnosisGroupViews.BasicView.class
+    })
+    private Integer minimumResponses;
     
 }
