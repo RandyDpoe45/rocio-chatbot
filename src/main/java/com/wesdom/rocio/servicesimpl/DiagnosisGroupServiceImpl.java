@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +32,7 @@ public class DiagnosisGroupServiceImpl implements DiagnosisGroupService {
     private EntityManager em;
 
     @Override
+    @Transactional
     public DiagnosisGroup create(DiagnosisGroup group) {
         DiagnosisGroup g = groupRepository.create(group);
         em.refresh(g);
@@ -38,6 +40,7 @@ public class DiagnosisGroupServiceImpl implements DiagnosisGroupService {
     }
 
     @Override
+    @Transactional
     public DiagnosisGroup update(Long id, DiagnosisGroup group) {
         DiagnosisGroup g = groupRepository.update(id,group);
         em.refresh(g);
