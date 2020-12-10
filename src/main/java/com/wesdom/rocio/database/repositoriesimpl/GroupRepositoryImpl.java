@@ -44,6 +44,7 @@ public class GroupRepositoryImpl implements GroupRepository{
     @Transactional
     public DiagnosisGroup create(DiagnosisGroup group) {
         DiagnosisGroup g = groupJpaRepository.saveAndFlush(group);
+        entityManager.refresh(g);
         return g;
     }
 
@@ -53,7 +54,10 @@ public class GroupRepositoryImpl implements GroupRepository{
         DiagnosisGroup g =groupJpaRepository.getOne(id);
         g.setApprentices(group.getApprentices()).setExpert(group.getExpert()).
                 setName(group.getName()).setKnowledgeAreas(group.getKnowledgeAreas());
-        return  groupJpaRepository.saveAndFlush(g);
+
+        g = groupJpaRepository.saveAndFlush(g);
+        entityManager.refresh(g);
+        return  g;
     }
 
     @Override
