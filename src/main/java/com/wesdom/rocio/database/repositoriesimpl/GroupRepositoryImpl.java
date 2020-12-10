@@ -55,7 +55,7 @@ public class GroupRepositoryImpl implements GroupRepository{
     @Transactional
     public DiagnosisGroup update(Long id, DiagnosisGroup group) {
         DiagnosisGroup g =groupJpaRepository.getOne(id);
-        g.setApprentices(group.getApprentices()).setExpert(group.getExpert()).
+        g.setApprentices(group.getApprentices()).setExpert(group.getExpert()).setMinimumResponses(group.getMinimumResponses()).
                 setName(group.getName()).setKnowledgeAreas(group.getKnowledgeAreas());
 
         g = groupJpaRepository.saveAndFlush(g);
