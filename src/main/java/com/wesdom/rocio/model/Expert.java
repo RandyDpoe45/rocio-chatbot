@@ -23,6 +23,6 @@ import org.hibernate.annotations.Formula;
 @Accessors(chain = true)
 public class Expert extends AppUser{
     
-    @Formula("SELECT count(dg) FROM DiagnosisGroup dg WHERE db.expert.id = id")
+    @Formula("SELECT count(dg) FROM DiagnosisGroup dg WHERE db.expert.id = this.id")
     private Long amountOfGroups;
 }
