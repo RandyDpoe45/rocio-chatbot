@@ -15,7 +15,10 @@ import com.wesdom.rocio.model.*;
 import com.wesdom.rocio.model.enums.RequestStatus;
 import com.wesdom.rocio.services.DiagnosisService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,15 +48,24 @@ public class DiagnosisServiceImpl implements DiagnosisService {
     
     @Override
     public Diagnosis create(Diagnosis diagnosis) {
-        List<Treatment> treatments = treatmentRepository.getAllById(
-                diagnosis.getTreatments().stream().map(x -> x.getId()).collect(Collectors.toList()));
-        List<Disease> diseases = diseaseRepository.getAllById(diagnosis.getDiseases().
-                stream().map(x -> x.getId()).collect( Collectors.toList()));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm");
+        Date date = new Date();
+//        List<Treatment> treatments = treatmentRepository.getAllById(
+//                diagnosis.getTreatments().stream().map(x -> x.getId()).collect(Collectors.toList()));
+//        List<Disease> diseases = diseaseRepository.getAllById(diagnosis.getDiseases().
+//                stream().map(x -> x.getId()).collect( Collectors.toList()));
         AppUser user = userJpaRepository.getOne(diagnosis.getUser().getId());
         Request request = requestRepository.get(diagnosis.getRequest().getId());
-        diagnosis.setDiseases(diseases).setTreatments(treatments).setUser(user).setRequest(request);
+//        diagnosis.setDiseases(diseases).setTreatments(treatments).setUser(user).setRequest(request);
+        try {
+            diagnosis.setCreationDate(sdf.parse(sdf.format(date)));
+            diagnosis.setCreationDateHour(sdf1.format(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         Diagnosis d  = diagnosisRepository.create(diagnosis);
-        if(!Arrays.asList(RequestStatus.PD.name(),RequestStatus.AM.name(),RequestStatus.AA.name()).contains(request.getStatus())){
+        if(!Arrays.asList(RequestStatus.AM.name(),RequestStatus.AA.name()).contains(request.getStatus())){
             String requestStatus = getRequestState(user,request);
             request.setStatus(requestStatus);
             requestRepository.create(request);
@@ -63,15 +75,15 @@ public class DiagnosisServiceImpl implements DiagnosisService {
 
     @Override
     public Diagnosis update(Long id, Diagnosis diagnosis) {
-        List<Treatment> treatments = treatmentRepository.getAllById(
-                diagnosis.getTreatments().stream().map(x -> x.getId()).collect(Collectors.toList()));
-        List<Disease> diseases = diseaseRepository.getAllById(diagnosis.getDiseases().
-                stream().map(x -> x.getId()).collect( Collectors.toList()));
+//        List<Treatment> treatments = treatmentRepository.getAllById(
+//                diagnosis.getTreatments().stream().map(x -> x.getId()).collect(Collectors.toList()));
+//        List<Disease> diseases = diseaseRepository.getAllById(diagnosis.getDiseases().
+//                stream().map(x -> x.getId()).collect( Collectors.toList()));
         AppUser user = userJpaRepository.getOne(diagnosis.getUser().getId());
         Request request = requestRepository.get(diagnosis.getId());
-        diagnosis.setDiseases(diseases).setTreatments(treatments).setUser(user).setRequest(request);
+//        diagnosis.setDiseases(diseases).setTreatments(treatments).setUser(user).setRequest(request);
         Diagnosis d  = diagnosisRepository.update(id,diagnosis);
-        if(!Arrays.asList(RequestStatus.PD.name(),RequestStatus.AM.name(),RequestStatus.AA.name()).contains(request.getStatus())){
+        if(!Arrays.asList(RequestStatus.AM.name(),RequestStatus.AA.name()).contains(request.getStatus())){
             String requestStatus = getRequestState(user,request);
             request.setStatus(requestStatus);
             requestRepository.create(request);

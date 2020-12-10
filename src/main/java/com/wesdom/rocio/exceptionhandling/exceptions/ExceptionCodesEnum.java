@@ -18,7 +18,8 @@ public enum ExceptionCodesEnum {
     PRODUCT_EXISTING_REFERENCE("002"),
     CSV_LOAD_FAILURE("003"),
     UNPARSEABLE_JSON("004"),
-    GROUP_WITH_REQUEST("005");
+    GROUP_WITH_REQUEST("005"),
+    EXPERT_WITH_GROUPS("006");
     
     private String code;
     

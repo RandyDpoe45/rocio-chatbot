@@ -43,42 +43,49 @@ public class Request {
     
     @ManyToOne(targetEntity = DiagnosisGroup.class)
     @JsonView({
-        RequestViews.CreateUpdateView.class, RequestViews.BasicView.class})
+        RequestViews.CreateUpdateView.class, RequestViews.BasicView.class
+            ,DiagnosisViews.BasicView.class})
     private DiagnosisGroup group;
 
     @ManyToOne(targetEntity = Manufacturer.class)
-    @JsonView({
+    @JsonView({DiagnosisViews.BasicView.class,
             RequestViews.CreateUpdateView.class, RequestViews.BasicView.class})
     private Manufacturer manufacturer;
 
     @ManyToOne(targetEntity = Plantation.class)
-    @JsonView({
+    @JsonView({DiagnosisViews.BasicView.class,
             RequestViews.CreateUpdateView.class, RequestViews.BasicView.class})
     private Plantation plantation;
 
-    @JsonView({RequestViews.CreateUpdateView.class, RequestViews.BasicView.class})
+    @JsonView({DiagnosisViews.BasicView.class,
+            RequestViews.CreateUpdateView.class, RequestViews.BasicView.class})
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date requestDate;
     
-    @JsonView({RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
+    @JsonView({DiagnosisViews.BasicView.class,
+            RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
     private String email;
-    @JsonView({RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
+    @JsonView({DiagnosisViews.BasicView.class,
+            RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
     private String  celNumber;
     @Column(length = Integer.MAX_VALUE)
-    @JsonView({RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
+    @JsonView({DiagnosisViews.BasicView.class,
+            RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
     private String description;
-    @JsonView({RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
+    @JsonView({DiagnosisViews.BasicView.class,
+            RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
     private String status;
-    @JsonView({RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
+    @JsonView({DiagnosisViews.BasicView.class,
+            RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
     private String product;
-    @JsonView({RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
+    @JsonView({DiagnosisViews.BasicView.class,
+            RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
     private String variety;
-    @JsonView({RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
+    @JsonView({DiagnosisViews.BasicView.class,
+            RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
     private String diseaseTime;
-    @JsonView({RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
+    @JsonView({DiagnosisViews.BasicView.class,
+            RequestViews.CreateUpdateView.class,RequestViews.BasicView.class})
     private String amountOfPlants;
 
-
-    
-    
 }

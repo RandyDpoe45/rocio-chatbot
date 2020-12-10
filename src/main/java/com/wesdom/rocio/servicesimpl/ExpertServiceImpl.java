@@ -7,6 +7,8 @@ package com.wesdom.rocio.servicesimpl;
 
 import com.wesdom.rocio.database.repositories.ExpertRepository;
 import com.wesdom.rocio.database.repositories.KnowledgeAreaRepository;
+import com.wesdom.rocio.exceptionhandling.exceptions.ExceptionCodesEnum;
+import com.wesdom.rocio.exceptionhandling.exceptions.GeneralException;
 import com.wesdom.rocio.model.Expert;
 import com.wesdom.rocio.model.KnowledgeArea;
 import com.wesdom.rocio.services.ExpertService;
@@ -37,6 +39,15 @@ public class ExpertServiceImpl implements ExpertService {
     public Expert update(Long id, Expert expert) {
         return expertRepository.update(id,expert);
     }
-    
-    
+
+    @Override
+    public void delete(Long id) {
+        Expert ex = expertRepository.get(id);
+        if(ex.getAmountOfGroups() > 0){
+            throw new GeneralException(ExceptionCodesEnum.EXPERT_WITH_GROUPS,"El experto tiene grupos asociados");
+        }
+        expertRepository.delete(id);
+    }
+
+
 }

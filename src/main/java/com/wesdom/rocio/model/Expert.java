@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.Formula;
 
 /**
  *
@@ -22,5 +23,6 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class Expert extends AppUser{
     
-    
+    @Formula("SELECT count(dg) FROM DiagnosisGroup dg WHERE db.expert.id = id")
+    private Long amountOfGroups;
 }

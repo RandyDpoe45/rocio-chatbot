@@ -16,5 +16,6 @@ public interface ExpertService {
     
     Expert create(Expert expert);
     Expert update(Long id, Expert expert);
+    void delete(Long id);
     
 }

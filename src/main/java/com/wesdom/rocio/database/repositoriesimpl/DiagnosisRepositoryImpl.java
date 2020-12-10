@@ -22,6 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+
 /**
  *
  * @author randy
@@ -36,7 +40,11 @@ public class DiagnosisRepositoryImpl implements DiagnosisRepository {
     private DiseaseJpaRepository diseaseJpaRepository;
     
     @Autowired
-    private TreatmentJpaRepository treatmentJpaRepository; 
+    private TreatmentJpaRepository treatmentJpaRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
     
     @Override
     public Diagnosis get(Long id) {
@@ -44,16 +52,22 @@ public class DiagnosisRepositoryImpl implements DiagnosisRepository {
     }
 
     @Override
+    @Transactional
     public Diagnosis create(Diagnosis diagnosis) {
-        return diagnosisJpaRepository.save(diagnosis);
+        Diagnosis d = diagnosisJpaRepository.saveAndFlush(diagnosis);
+        entityManager.refresh(d);
+        return d;
     }
 
     @Override
+    @Transactional
     public Diagnosis update(Long id, Diagnosis diagnosis) {
         Diagnosis diag = diagnosisJpaRepository.getOne(id);
         diag.setDiseases(diagnosis.getDiseases()).setTreatments(diagnosis.getTreatments()).setUser(diagnosis.getUser()).
                 setRequest(diagnosis.getRequest());
-        return diagnosisJpaRepository.save(diag);
+        diag = diagnosisJpaRepository.saveAndFlush(diag);
+        entityManager.refresh(diag);
+        return diag;
     }
 
     @Override

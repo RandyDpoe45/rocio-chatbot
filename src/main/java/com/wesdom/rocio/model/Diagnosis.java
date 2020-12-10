@@ -5,8 +5,11 @@
  */
 package com.wesdom.rocio.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.wesdom.rocio.views.DiagnosisViews;
+
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,6 +45,17 @@ public class Diagnosis {
         DiagnosisViews.CreateUpdateView.class,DiagnosisViews.BasicView.class
     })
     private Request request;
+
+    @JsonView({
+            DiagnosisViews.CreateUpdateView.class,DiagnosisViews.BasicView.class
+    })
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private Date creationDate;
+
+    @JsonView({
+            DiagnosisViews.CreateUpdateView.class,DiagnosisViews.BasicView.class
+    })
+    private String creationDateHour;
     
     @OneToMany(targetEntity = Disease.class)
     @JsonView({
