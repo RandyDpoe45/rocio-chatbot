@@ -43,8 +43,8 @@ public class GroupRepositoryImpl implements GroupRepository{
     @Override
     @Transactional
     public DiagnosisGroup create(DiagnosisGroup group) {
-        DiagnosisGroup g = groupJpaRepository.save(group);
-        g = entityManager.merge(g);
+        DiagnosisGroup g = groupJpaRepository.saveAndFlush(group);
+        entityManager.refresh(g);
         return g;
     }
 
