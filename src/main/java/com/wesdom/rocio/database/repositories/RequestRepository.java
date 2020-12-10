@@ -5,6 +5,7 @@
  */
 package com.wesdom.rocio.database.repositories;
 
+import com.wesdom.rocio.model.DiagnosisGroup;
 import com.wesdom.rocio.model.Request;
 import java.util.Map;
 import org.springframework.data.domain.Page;
@@ -20,5 +21,6 @@ public interface RequestRepository {
     Request update(Long id, Request request);
     void delete(Long id);
     Page<Request> getAll(Map<String,String> queryParams);
+    Request getTop1ByDiagnosisGroupId(Long diagnosisGroupId);
     
 }

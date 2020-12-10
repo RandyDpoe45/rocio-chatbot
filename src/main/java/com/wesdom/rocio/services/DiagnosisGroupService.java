@@ -16,4 +16,5 @@ public interface DiagnosisGroupService {
     
     DiagnosisGroup create(DiagnosisGroup group);
     DiagnosisGroup update(Long id, DiagnosisGroup group);
+    void delete(Long id);
 }

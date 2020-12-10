@@ -57,7 +57,7 @@ public class DiagnosisGroupRestController {
     public Page<DiagnosisGroup> getAll(@RequestParam Map<String, String> queryParams) {
         return groupRepository.getAll(queryParams);
     }
-
+    
     @PutMapping("/{id}")
     @JsonView(DiagnosisGroupViews.BasicView.class)
     public DiagnosisGroup update(@PathVariable Long id, @RequestBody String data) throws JsonProcessingException {

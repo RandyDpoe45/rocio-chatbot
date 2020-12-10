@@ -8,9 +8,11 @@ package com.wesdom.rocio.servicesimpl;
 import com.wesdom.rocio.database.repositories.ApprenticeRepository;
 import com.wesdom.rocio.database.repositories.GroupRepository;
 import com.wesdom.rocio.database.repositories.KnowledgeAreaRepository;
-import com.wesdom.rocio.model.Apprentice;
+import com.wesdom.rocio.database.repositories.RequestRepository;
+import com.wesdom.rocio.exceptionhandling.exceptions.ExceptionCodesEnum;
+import com.wesdom.rocio.exceptionhandling.exceptions.GeneralException;
 import com.wesdom.rocio.model.DiagnosisGroup;
-import com.wesdom.rocio.model.KnowledgeArea;
+import com.wesdom.rocio.model.Request;
 import com.wesdom.rocio.services.DiagnosisGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +20,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -30,6 +30,9 @@ public class DiagnosisGroupServiceImpl implements DiagnosisGroupService {
 
     @Autowired
     private GroupRepository groupRepository;
+
+    @Autowired
+    private RequestRepository requestRepository;
 
     @Autowired
     private ApprenticeRepository apprenticeRepository;
@@ -53,5 +56,13 @@ public class DiagnosisGroupServiceImpl implements DiagnosisGroupService {
         DiagnosisGroup g = groupRepository.update(id,group);
         return g;
     }
-    
+
+    @Override
+    public void delete(Long id) {
+        Request request = requestRepository.getTop1ByDiagnosisGroupId(id);
+        if(request != null){
+            throw new GeneralException(ExceptionCodesEnum.GROUP_WITH_REQUEST,"No se puede eliminar porque tiene solicitudes asociadas");
+        }
+        groupRepository.delete(id);
+    }
 }

@@ -21,6 +21,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -70,5 +71,15 @@ public class DiagnosisGroup {
         DiagnosisGroupViews.CreateUpdateView.class, DiagnosisGroupViews.BasicView.class
     })
     private Integer minimumResponses;
+
+//    private Long amountEPRequest;
+
+//    private Long amountPDRequest;
+//
+//    private Long amountAMRequest;
+//
+//    private Long amountAARequest;
+//
+//    private Long amountEEquest;
     
 }

@@ -19,4 +19,5 @@ public interface GroupRepository {
     DiagnosisGroup update(Long id, DiagnosisGroup group);
     void delete(Long id);
     Page<DiagnosisGroup> getAll(Map<String,String> queryParams);
+    DiagnosisGroup getLessBusy();
 }

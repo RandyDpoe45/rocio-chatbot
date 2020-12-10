@@ -16,5 +16,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface RequestJpaRepository extends JpaRepository<Request, Long>, JpaSpecificationExecutor<Request> {
-    
+
+    Request findTop1ByGroupId(Long diagnosisGroupId);
 }

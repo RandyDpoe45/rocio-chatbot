@@ -7,6 +7,7 @@ package com.wesdom.rocio.database.repositoriesimpl;
 
 import com.wesdom.rocio.database.jparepositories.RequestJpaRepository;
 import com.wesdom.rocio.database.repositories.RequestRepository;
+import com.wesdom.rocio.model.DiagnosisGroup;
 import com.wesdom.rocio.model.Request;
 import com.wesdom.rocio.services.IPaginationBuilder;
 import com.wesdom.rocio.services.IPredicateBuilder;
@@ -61,6 +62,11 @@ public class RequestRepositoryImpl implements RequestRepository{
         }
         return requestJpaRepository.findAll(predicate.createPredicate(queryParams), pagination.createPagination(queryParams));
     }
-    
-    
+
+    @Override
+    public Request getTop1ByDiagnosisGroupId(Long diagnosisGroupId) {
+        return requestJpaRepository.findTop1ByGroupId(diagnosisGroupId);
+    }
+
+
 }

@@ -34,7 +34,7 @@ public class RequestServiceImpl implements RequestService{
     
     @Override
     public Request create(Request request) {
-        DiagnosisGroup diagnosisGroup = groupRepository.get(1l);
+        DiagnosisGroup diagnosisGroup = groupRepository.getLessBusy();
         Manufacturer manufacturer = manufacturerRepository.getByPhone(request.getCelNumber());
         request.setRequestDate(new Date()).setGroup(diagnosisGroup).setManufacturer(manufacturer);
         return requestRepository.create(request);

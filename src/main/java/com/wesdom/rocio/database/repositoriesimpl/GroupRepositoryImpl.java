@@ -13,9 +13,12 @@ import com.wesdom.rocio.services.IPredicateBuilder;
 import com.wesdom.rocio.servicesimpl.PaginationBuilderImpl;
 import com.wesdom.rocio.servicesimpl.PredicateBuilderServiceImpl;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -74,5 +77,11 @@ public class GroupRepositoryImpl implements GroupRepository{
         }
         return groupJpaRepository.findAll(predicate.createPredicate(queryParams), paginationBuilder.createPagination(queryParams));
     }
-    
+
+    @Override
+    public DiagnosisGroup getLessBusy() {
+        List<Object[]> res =  groupJpaRepository.findTop1OrderByNumberOfRequestDesc(PageRequest.of(0,1));
+        return (DiagnosisGroup) res.get(0)[0];
+    }
+
 }
