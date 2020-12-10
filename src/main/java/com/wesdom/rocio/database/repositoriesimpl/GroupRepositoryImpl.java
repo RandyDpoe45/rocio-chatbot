@@ -44,7 +44,7 @@ public class GroupRepositoryImpl implements GroupRepository{
     @Transactional
     public DiagnosisGroup create(DiagnosisGroup group) {
         DiagnosisGroup g = groupJpaRepository.save(group);
-        entityManager.refresh(g);
+        g = entityManager.merge(g);
         return g;
     }
 
