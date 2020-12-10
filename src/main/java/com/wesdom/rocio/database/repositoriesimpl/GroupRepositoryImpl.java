@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 /**
@@ -28,7 +30,10 @@ import javax.transaction.Transactional;
 public class GroupRepositoryImpl implements GroupRepository{
 
     @Autowired
-    private GroupJpaRepository groupJpaRepository; 
+    private GroupJpaRepository groupJpaRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
     
     @Override
     public DiagnosisGroup get(Long id) {
@@ -39,6 +44,7 @@ public class GroupRepositoryImpl implements GroupRepository{
     @Transactional
     public DiagnosisGroup create(DiagnosisGroup group) {
         DiagnosisGroup g = groupJpaRepository.save(group);
+        entityManager.refresh(g);
         return g;
     }
 
