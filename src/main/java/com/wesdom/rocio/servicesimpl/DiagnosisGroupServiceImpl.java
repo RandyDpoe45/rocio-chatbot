@@ -43,26 +43,26 @@ public class DiagnosisGroupServiceImpl implements DiagnosisGroupService {
     @Override
     @Transactional
     public DiagnosisGroup create(DiagnosisGroup group) {
-        List<Long> knowledgeAreaIds = group.getKnowledgeAreas().stream().map(x -> x.getId()).collect(Collectors.toList());
-        List<Long> apprendiceIds = group.getApprentices().stream().map(x -> x.getId()).collect(Collectors.toList());
-        List<Apprentice> apprentices = apprenticeRepository.getAllById(apprendiceIds);
-        List<KnowledgeArea> knowledgeAreas = knowledgeAreaRepository.getAllById(knowledgeAreaIds);
-        group.setApprentices(apprentices).setKnowledgeAreas(knowledgeAreas);
+//        List<Long> knowledgeAreaIds = group.getKnowledgeAreas().stream().map(x -> x.getId()).collect(Collectors.toList());
+//        List<Long> apprendiceIds = group.getApprentices().stream().map(x -> x.getId()).collect(Collectors.toList());
+//        List<Apprentice> apprentices = apprenticeRepository.getAllById(apprendiceIds);
+//        List<KnowledgeArea> knowledgeAreas = knowledgeAreaRepository.getAllById(knowledgeAreaIds);
+//        group.setApprentices(apprentices).setKnowledgeAreas(knowledgeAreas);
         DiagnosisGroup g = groupRepository.create(group);
-        em.refresh(g);
+//        em.refresh(g);
         return g;
     }
 
     @Override
     @Transactional
     public DiagnosisGroup update(Long id, DiagnosisGroup group) {
-        List<Long> knowledgeAreaIds = group.getKnowledgeAreas().stream().map(x -> x.getId()).collect(Collectors.toList());
-        List<Long> apprendiceIds = group.getApprentices().stream().map(x -> x.getId()).collect(Collectors.toList());
-        List<Apprentice> apprentices = apprenticeRepository.getAllById(apprendiceIds);
-        List<KnowledgeArea> knowledgeAreas = knowledgeAreaRepository.getAllById(knowledgeAreaIds);
-        group.setApprentices(apprentices).setKnowledgeAreas(knowledgeAreas);
+//        List<Long> knowledgeAreaIds = group.getKnowledgeAreas().stream().map(x -> x.getId()).collect(Collectors.toList());
+//        List<Long> apprendiceIds = group.getApprentices().stream().map(x -> x.getId()).collect(Collectors.toList());
+//        List<Apprentice> apprentices = apprenticeRepository.getAllById(apprendiceIds);
+//        List<KnowledgeArea> knowledgeAreas = knowledgeAreaRepository.getAllById(knowledgeAreaIds);
+//        group.setApprentices(apprentices).setKnowledgeAreas(knowledgeAreas);
         DiagnosisGroup g = groupRepository.update(id,group);
-        em.refresh(g);
+//        em.refresh(g);
         return g;
     }
     

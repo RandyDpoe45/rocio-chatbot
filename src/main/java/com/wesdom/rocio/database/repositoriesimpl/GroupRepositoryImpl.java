@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 /**
  *
  * @author randy
@@ -34,11 +36,14 @@ public class GroupRepositoryImpl implements GroupRepository{
     }
 
     @Override
+    @Transactional
     public DiagnosisGroup create(DiagnosisGroup group) {
-        return groupJpaRepository.save(group);
+        DiagnosisGroup g = groupJpaRepository.save(group);
+        return g;
     }
 
     @Override
+    @Transactional
     public DiagnosisGroup update(Long id, DiagnosisGroup group) {
         DiagnosisGroup g =groupJpaRepository.getOne(id);
         g.setApprentices(group.getApprentices()).setExpert(group.getExpert()).
