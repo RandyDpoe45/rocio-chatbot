@@ -72,7 +72,7 @@ public class ExpertRestController {
 
     @DeleteMapping("/{id}")
     public GeneralResponse delete(@PathVariable Long id) {
-        expertRepository.delete(id);
+        expertService.delete(id);
         return new GeneralResponse().setErrorCode("000").setResponse("Borado con exito");
     }
 

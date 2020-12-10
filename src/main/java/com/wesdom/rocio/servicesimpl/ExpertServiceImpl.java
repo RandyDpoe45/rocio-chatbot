@@ -42,8 +42,8 @@ public class ExpertServiceImpl implements ExpertService {
 
     @Override
     public void delete(Long id) {
-        Expert ex = expertRepository.get(id);
-        if(ex.getAmountOfGroups() > 0){
+        Long res = expertRepository.getAmountOfDiagnosisGroups(id);
+        if(res > 0){
             throw new GeneralException(ExceptionCodesEnum.EXPERT_WITH_GROUPS,"El experto tiene grupos asociados");
         }
         expertRepository.delete(id);

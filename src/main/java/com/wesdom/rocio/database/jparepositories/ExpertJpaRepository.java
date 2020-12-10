@@ -8,6 +8,7 @@ package com.wesdom.rocio.database.jparepositories;
 import com.wesdom.rocio.model.Expert;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,5 +17,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ExpertJpaRepository extends JpaRepository<Expert, Long>, JpaSpecificationExecutor<Expert> {
-    
+
+    @Query("SELECT count(dg) FROM DiagnosisGroup dg WHERE dg.expert.id = ?1")
+    Long getAmountOfDiagnosisGroups(Long id);
 }

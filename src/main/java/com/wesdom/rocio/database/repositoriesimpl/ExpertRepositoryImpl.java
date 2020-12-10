@@ -65,5 +65,10 @@ public class ExpertRepositoryImpl implements ExpertRepository{
     public List<Expert> getAllById(List<Long> ids) {
         return expertJpaRepository.findAllById(ids);
     }
-    
+
+    @Override
+    public Long getAmountOfDiagnosisGroups(Long id) {
+        return expertJpaRepository.getAmountOfDiagnosisGroups(id);
+    }
+
 }

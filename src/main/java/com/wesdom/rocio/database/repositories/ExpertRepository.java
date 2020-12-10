@@ -22,4 +22,5 @@ public interface ExpertRepository {
     void delete(Long id);
     Page<Expert> getAll(Map<String,String> queryParams);
     List<Expert> getAllById(List<Long> ids);
+    Long getAmountOfDiagnosisGroups(Long id);
 }
