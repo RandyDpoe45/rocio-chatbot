@@ -12,10 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wesdom.rocio.database.repositories.DiagnosisRepository;
 import com.wesdom.rocio.database.repositories.RequestRepository;
 import com.wesdom.rocio.dtos.WebhookDto;
-import com.wesdom.rocio.model.Diagnosis;
-import com.wesdom.rocio.model.Disease;
-import com.wesdom.rocio.model.Request;
-import com.wesdom.rocio.model.Treatment;
+import com.wesdom.rocio.model.*;
 import com.wesdom.rocio.model.enums.RequestStatus;
 import com.wesdom.rocio.services.DiagnosisService;
 import com.wesdom.rocio.views.DiagnosisViews;
@@ -25,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -72,27 +71,35 @@ public class DiagnosisRestController {
             JSONObject request = new JSONObject(requestBody);
             String reqData = request.getString("reqSol");
             System.out.println("!!!!----"+reqData);
-            Long reqId = Long.parseLong(reqData.split("#")[0].split(":")[1].trim());
-//            System.out.println("!!!!!----"+reqId);
-            Request req = requestRepository.get(reqId);
-            List<Diagnosis> diagnoses = null;
-            if (req.getStatus().equals(RequestStatus.AA.name())) {
-                List<Long> ids = req.getGroup().getApprentices().stream().map(x -> x.getId()).collect(Collectors.toList());
-                diagnoses = diagnosisRepository.getByUserIdAndRequestId(ids, req.getId());
-            } else {
-                diagnoses = diagnosisRepository.getByUserIdAndRequestId(Arrays.asList(req.getGroup().getExpert().getId()), req.getId());
-            }
-            String response = "Estas fueron las enfermedades diagnosticadas: \n";
-            for (Disease d : diagnoses.get(0).getDiseases()) {
-                response += d.getName() + " \n";
+            Pattern p = Pattern.compile("\\#([0-9]+)\\#");
+            Matcher m = p.matcher(reqData);
+            if(m.find()){
+                Long reqId = Long.parseLong(m.group().trim());
+                Request req = requestRepository.get(reqId);
+                List<Diagnosis> diagnoses = null;
+                if (req.getStatus().equals(RequestStatus.AA.name())) {
+                    List<Long> ids = req.getGroup().getApprentices().stream().map(x -> x.getId()).collect(Collectors.toList());
+                    diagnoses = diagnosisRepository.getByUserIdAndRequestId(ids, req.getId());
+                } else {
+                    diagnoses = diagnosisRepository.getByUserIdAndRequestId(Arrays.asList(req.getGroup().getExpert().getId()), req.getId());
+                }
+                String response = "Estas fueron las enfermedades diagnosticadas: \n";
+                for (Disease d : diagnoses.get(0).getDiseases()) {
+                    response += d.getName() + " \n";
+                }
+                response += "Estos son los tratamientos sugeridos:\n";
+                for (Treatment t : diagnoses.get(0).getTreatments()) {
+                    response += t.getPreparation() + " \n";
+                }
+                return new WebhookDto().setUser_id(request.getString("user_id")).setBot_id(request.getString("bot_id")).
+                        setBlocked_input(Boolean.TRUE).setChannel(request.getString("channel")).setModule_id(request.getString("module_id")).
+                        setMessage(response);
+            }else{
+                return new WebhookDto().setUser_id(request.getString("user_id")).setBot_id(request.getString("bot_id")).
+                        setBlocked_input(Boolean.TRUE).setChannel(request.getString("channel")).setModule_id(request.getString("module_id")).
+                        setMessage("No se encuentra diagnostico para esta peticion");
             }
 
-            for (Treatment t : diagnoses.get(0).getTreatments()) {
-                response += t.getPreparation() + " \n";
-            }
-            return new WebhookDto().setUser_id(request.getString("user_id")).setBot_id(request.getString("bot_id")).
-                    setBlocked_input(Boolean.TRUE).setChannel(request.getString("channel")).setModule_id(request.getString("module_id")).
-                    setMessage(response);
         }catch (Exception e){
             e.printStackTrace();
             return new WebhookDto();
