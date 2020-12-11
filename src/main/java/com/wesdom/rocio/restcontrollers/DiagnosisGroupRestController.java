@@ -69,7 +69,7 @@ public class DiagnosisGroupRestController {
 
     @DeleteMapping("/{id}")
     public GeneralResponse delete(@PathVariable Long id) {
-        groupRepository.delete(id);
+        diagnosisGroupService.delete(id);
         return new GeneralResponse().setErrorCode("000").setResponse("Borado con exito");
     }
 
