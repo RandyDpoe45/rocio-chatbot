@@ -113,7 +113,7 @@ public class RequestRestController {
                return new JSONObject().put("type","text").put("value","Numero de solicitud: "+x.getId()+"#\nDescripcion: "+x.getDescription())
                        .put("buttons",new JSONObject().put("type","url").put("value","https://google.com")
                                .put("name","seleccionar"))
-                       .toMap();
+                       ;
             }).collect(Collectors.toList());
             return new WebhookDto().setUser_id(request.getString("user_id")).setBot_id(request.getString("bot_id")).
                     setBlocked_input(Boolean.TRUE).setChannel(request.getString("channel")).setModule_id(request.getString("module_id")).
