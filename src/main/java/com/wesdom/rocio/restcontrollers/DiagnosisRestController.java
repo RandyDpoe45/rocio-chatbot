@@ -74,7 +74,7 @@ public class DiagnosisRestController {
             Pattern p = Pattern.compile("\\#([0-9]+)\\#");
             Matcher m = p.matcher(reqData);
             if(m.find()){
-                Long reqId = Long.parseLong(m.group().trim());
+                Long reqId = Long.parseLong(m.group().replace("#","").trim());
                 Request req = requestRepository.get(reqId);
                 List<Diagnosis> diagnoses = null;
                 if (req.getStatus().equals(RequestStatus.AA.name())) {
