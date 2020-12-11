@@ -11,6 +11,8 @@ import com.wesdom.rocio.database.repositories.DiagnosisRepository;
 import com.wesdom.rocio.database.repositories.DiseaseRepository;
 import com.wesdom.rocio.database.repositories.RequestRepository;
 import com.wesdom.rocio.database.repositories.TreatmentRepository;
+import com.wesdom.rocio.exceptionhandling.exceptions.ExceptionCodesEnum;
+import com.wesdom.rocio.exceptionhandling.exceptions.GeneralException;
 import com.wesdom.rocio.model.*;
 import com.wesdom.rocio.model.enums.RequestStatus;
 import com.wesdom.rocio.services.DiagnosisService;
@@ -51,13 +53,11 @@ public class DiagnosisServiceImpl implements DiagnosisService {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm");
         Date date = new Date();
-//        List<Treatment> treatments = treatmentRepository.getAllById(
-//                diagnosis.getTreatments().stream().map(x -> x.getId()).collect(Collectors.toList()));
-//        List<Disease> diseases = diseaseRepository.getAllById(diagnosis.getDiseases().
-//                stream().map(x -> x.getId()).collect( Collectors.toList()));
-        AppUser user = userJpaRepository.getOne(diagnosis.getUser().getId());
+        AppUser user = diagnosis.getUser();
         Request request = requestRepository.get(diagnosis.getRequest().getId());
-//        diagnosis.setDiseases(diseases).setTreatments(treatments).setUser(user).setRequest(request);
+        if(alreadyAnswered(user,request)){
+            throw new GeneralException(ExceptionCodesEnum.ALREADY_DIAGNOSED,"Ya realizo un diagnostico de esta peticion");
+        }
         try {
             diagnosis.setCreationDate(sdf.parse(sdf.format(date)));
             diagnosis.setCreationDateHour(sdf1.format(date));
@@ -75,13 +75,8 @@ public class DiagnosisServiceImpl implements DiagnosisService {
 
     @Override
     public Diagnosis update(Long id, Diagnosis diagnosis) {
-//        List<Treatment> treatments = treatmentRepository.getAllById(
-//                diagnosis.getTreatments().stream().map(x -> x.getId()).collect(Collectors.toList()));
-//        List<Disease> diseases = diseaseRepository.getAllById(diagnosis.getDiseases().
-//                stream().map(x -> x.getId()).collect( Collectors.toList()));
         AppUser user = userJpaRepository.getOne(diagnosis.getUser().getId());
         Request request = requestRepository.get(diagnosis.getId());
-//        diagnosis.setDiseases(diseases).setTreatments(treatments).setUser(user).setRequest(request);
         Diagnosis d  = diagnosisRepository.update(id,diagnosis);
         if(!Arrays.asList(RequestStatus.AM.name(),RequestStatus.AA.name()).contains(request.getStatus())){
             String requestStatus = getRequestState(user,request);
@@ -89,6 +84,14 @@ public class DiagnosisServiceImpl implements DiagnosisService {
             requestRepository.create(request);
         }
         return d;
+    }
+
+    private boolean alreadyAnswered(AppUser user,Request request){
+        List<Diagnosis> diagnosis = diagnosisRepository.getByUserIdAndRequestId(Arrays.asList(user.getId()),request.getId());
+        if(!diagnosis.isEmpty()){
+            return true;
+        }
+        return false;
     }
 
     private String getRequestState(AppUser user, Request request){

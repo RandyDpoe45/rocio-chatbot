@@ -19,7 +19,8 @@ public enum ExceptionCodesEnum {
     CSV_LOAD_FAILURE("003"),
     UNPARSEABLE_JSON("004"),
     GROUP_WITH_REQUEST("005"),
-    EXPERT_WITH_GROUPS("006");
+    EXPERT_WITH_GROUPS("006"),
+    ALREADY_DIAGNOSED("007");
     
     private String code;
     
