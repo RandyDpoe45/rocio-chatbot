@@ -71,7 +71,7 @@ public class DiagnosisRestController {
         try {
             JSONObject request = new JSONObject(requestBody);
             String reqData = request.getString("reqSol");
-//            System.out.println("!!!!----"+reqData);
+            System.out.println("!!!!----"+reqData);
             Long reqId = Long.parseLong(reqData.split("#")[0].split(":")[1].trim());
 //            System.out.println("!!!!!----"+reqId);
             Request req = requestRepository.get(reqId);
