@@ -111,9 +111,9 @@ public class RequestRestController {
             List<String> suggestedRep = requests.stream().map(x -> {return "#"+x.getId()+"#";}).collect(Collectors.toList());
             List<Object> cards = requests.stream().map(x -> {
                return new JSONObject().put("type","text").put("value","Numero de solicitud: #"+x.getId()+"#\nDescripcion: "+x.getDescription())
-                       .put("buttons",new JSONObject().put("type","url").put("value","https://google.com")
-                               .put("name","seleccionar").toMap()).toMap()
-                       ;
+//                       .put("buttons",new JSONObject().put("type","url").put("value","https://google.com")
+//                               .put("name","seleccionar").toMap()).toMap()
+                       .toMap();
             }).collect(Collectors.toList());
             return new WebhookDto().setUser_id(request.getString("user_id")).setBot_id(request.getString("bot_id")).
                     setBlocked_input(Boolean.TRUE).setChannel(request.getString("channel")).setModule_id(request.getString("module_id")).
