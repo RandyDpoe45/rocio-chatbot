@@ -5,16 +5,11 @@
  */
 package com.wesdom.rocio.restcontrollers;
 
-import com.wesdom.rocio.dtos.WebhookDto;
-import java.util.Arrays;
-import java.util.Map;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.wesdom.rocio.database.repositories.PendingSMSNotificationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -25,35 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = {"*"})
 @RequestMapping()
 public class BotRestController {
-    
-    /*
-        $bot_id = $_POST['bot_id'];
-        $user_id = $_POST['user_id'];
-        $module_id = $_POST['module_id'];
-        $channel = $_POST['channel'];
 
-        // Add a message that will be displayed in the chat
-        $message = 'Here u are!'\n;
-        $message += 'The temperature is'+$arrayOpenweather["main"]["temp"];
-
-        // Add quick replies to the chat
-        $suggestedReplies = ['Next 5 days','Pick a day', 'Return to the beginning'];
-
-        // Add answer’s header
-        header('Content-Type: application/json');
-
-        // Build an array $response
-        $response = [
-                'user_id' => $user_id,
-                'bot_id' => $bot_id,
-                'module_id' => $module_id,
-                'message' => $message,
-                'suggested_replies' => $suggestedReplies,
-                'blocked_input' => false
-            ];
-    */
-    
-    
+    @Autowired
+    private PendingSMSNotificationRepository pendingSMSNotificationRepository;
     
     @GetMapping
     public String getTestString(){

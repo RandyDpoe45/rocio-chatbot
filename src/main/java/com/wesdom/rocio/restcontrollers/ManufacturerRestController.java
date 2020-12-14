@@ -45,8 +45,11 @@ public class ManufacturerRestController {
 
             JSONObject data = new JSONObject(chatBotData).getJSONObject("variables");
             System.out.println("!!!data: " + data.toString());
+            String phone = data.getString("phone");
+            phone = phone.startsWith("+57") ? phone.replace("+57","") : phone;
+            phone = phone.startsWith("57") ? phone.substring(2,phone.length()) : phone;
             Manufacturer manufacturer = new Manufacturer().setNames(data.getString("names")).setLastNames(data.getString("lastNames")).
-            setPhone(data.getString("phone")).setRole(data.getString("role")).setAge(data.getInt("age")).setIdType(data.getString("idType"))
+            setPhone(phone).setRole(data.getString("role")).setAge(data.getInt("age")).setIdType(data.getString("idType"))
             .setIdNumber(data.getString("idNumber")).setProdType(data.getString("prod_type")).setPlantationName(data.getString("plantation_field"))
             .setGender(data.getString("gender")).setDepartmentName(data.getString("department")).setMunicipalityName(data.getString("municipality"))
             ;

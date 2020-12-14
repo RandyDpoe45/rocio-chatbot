@@ -13,6 +13,7 @@ import com.wesdom.rocio.database.repositories.RequestRepository;
 import com.wesdom.rocio.database.repositories.TreatmentRepository;
 import com.wesdom.rocio.exceptionhandling.exceptions.ExceptionCodesEnum;
 import com.wesdom.rocio.exceptionhandling.exceptions.GeneralException;
+import com.wesdom.rocio.integration.Interface.SMSService;
 import com.wesdom.rocio.model.*;
 import com.wesdom.rocio.model.enums.RequestStatus;
 import com.wesdom.rocio.services.DiagnosisService;
@@ -46,7 +47,10 @@ public class DiagnosisServiceImpl implements DiagnosisService {
     private RequestRepository requestRepository;
     
     @Autowired
-    private DiagnosisRepository diagnosisRepository; 
+    private DiagnosisRepository diagnosisRepository;
+
+    @Autowired
+    private SMSService smsService;
     
     @Override
     public Diagnosis create(Diagnosis diagnosis) {
@@ -65,10 +69,15 @@ public class DiagnosisServiceImpl implements DiagnosisService {
             e.printStackTrace();
         }
         Diagnosis d  = diagnosisRepository.create(diagnosis);
-        if(!Arrays.asList(RequestStatus.AM.name(),RequestStatus.AA.name()).contains(request.getStatus())){
+        List<String> avalibleStatus = Arrays.asList(RequestStatus.AM.name(),RequestStatus.AA.name());
+        if(!avalibleStatus.contains(request.getStatus())){
             String requestStatus = getRequestState(user,request);
             request.setStatus(requestStatus);
             requestRepository.create(request);
+        }
+        if(avalibleStatus.contains(request.getStatus())){
+            String message = getMessage(request);
+            smsService.sendMessage("57"+request.getCelNumber(),message);
         }
         return d;
     }
@@ -124,6 +133,13 @@ public class DiagnosisServiceImpl implements DiagnosisService {
             return RequestStatus.AA.name();
         }
         return RequestStatus.EE.name();
+    }
+
+    private String getMessage(Request request){
+        String message = "Su peticion: \n";
+        message+=request.getDescription()+"\n";
+        message+="Ha recibido respuesta, consultela por medio del chat de ROCIO a traves de la opcion consultar respuestas";
+        return message;
     }
     
 }
