@@ -71,7 +71,7 @@ public class DiagnosisRestController {
             JSONObject request = new JSONObject(requestBody);
             String reqData = request.getString("reqSol");
             System.out.println("!!!!----"+reqData);
-            Pattern p = Pattern.compile("\\#([0-9]+)\\#");
+            Pattern p = Pattern.compile("([0-9]+)");
             Matcher m = p.matcher(reqData);
             if(m.find()){
                 Long reqId = Long.parseLong(m.group().replace("#","").trim());
