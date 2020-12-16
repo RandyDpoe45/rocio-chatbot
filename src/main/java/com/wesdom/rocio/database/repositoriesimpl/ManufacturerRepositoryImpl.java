@@ -37,7 +37,7 @@ public class ManufacturerRepositoryImpl implements ManufacturerRepository {
         m.setPhone(manufacturer.getPhone()).setCommitment(manufacturer.getCommitment()).setRole(manufacturer.getRole())
                 .setAge(manufacturer.getAge()).setGender(manufacturer.getGender()).setDepartmentName(manufacturer.getDepartmentName())
                 .setMunicipalityName(manufacturer.getMunicipalityName()).setIdType(manufacturer.getIdType()).setIdNumber(manufacturer.getIdNumber())
-                .setPlantationName(manufacturer.getPlantationName()).setProdType(manufacturer.getProdType()).setNames(manufacturer.getLastNames())
+                .setPlantationName(manufacturer.getPlantationName()).setProdType(manufacturer.getProdType()).setNames(manufacturer.getNames())
                 .setLastNames(manufacturer.getLastNames());
         return manufacturerJpaRepository.save(m);
     }

@@ -136,8 +136,8 @@ public class DiagnosisServiceImpl implements DiagnosisService {
     }
 
     private String getMessage(Request request){
-        String message = "Su peticion: \n";
-        message+=request.getDescription()+"\n";
+        String message = "Su peticion registrada con el producto: "+request.getProduct();
+        message+="\n y la descripcion: "+request.getDescription()+"\n";
         message+="Ha recibido respuesta, consultela por medio del chat de ROCIO a traves de la opcion consultar respuestas";
         return message;
     }

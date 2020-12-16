@@ -110,7 +110,8 @@ public class RequestRestController {
             Page<Request> requests = requestRepository.getAll(filters);
             List<String> suggestedRep = requests.stream().map(x -> {return "#"+x.getId()+"#";}).collect(Collectors.toList());
             List<Object> cards = requests.stream().map(x -> {
-               return new JSONObject().put("type","text").put("value","Numero de solicitud: #"+x.getId()+"#\nDescripcion: "+x.getDescription())
+               return new JSONObject().put("type","text").put("value","Numero de solicitud: #"+x.getId()+"#\nProducto: "+x.getProduct()+
+                       "\nDescripcion: "+x.getDescription())
                        .toMap();
             }).collect(Collectors.toList());
             return new WebhookDto().setUser_id(request.getString("user_id")).setBot_id(request.getString("bot_id")).
