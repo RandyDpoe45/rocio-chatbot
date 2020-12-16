@@ -23,7 +23,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 
     @Override
     public Manufacturer update(Long id, Manufacturer manufacturer) {
-        Manufacturer m = manufacturerRepository.getByPhone(manufacturer.getPhone());
+        Manufacturer m = manufacturerRepository.get(id);
         if(m != null){
             return manufacturerRepository.update(id,manufacturer);
         }
