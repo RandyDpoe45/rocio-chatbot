@@ -69,8 +69,7 @@ public class Disease {
             DiseaseViews.CreateUpdateView.class, DiseaseViews.BasicView.class,
             DiagnosisViews.BasicView.class
     })
-    @LastModifiedDate
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @LastModifiedDate()
     private Date moficationDate;
 
     @JsonView({
