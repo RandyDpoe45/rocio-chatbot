@@ -16,17 +16,12 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
-import jdk.jfr.Timestamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -73,7 +68,7 @@ public class Disease {
             DiagnosisViews.BasicView.class
     })
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date modficationDate;
+    private Date modificationDate;
 
     @JsonView({
         DiseaseViews.CreateUpdateView.class, DiseaseViews.BasicView.class
@@ -92,13 +87,13 @@ public class Disease {
     @PrePersist
     protected void prePersist() throws ParseException {
         SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd");
-        if (this.modficationDate == null) modficationDate = sdf.parse(sdf.format(new Date()));
+        if (this.modificationDate == null) modificationDate = sdf.parse(sdf.format(new Date()));
     }
 
     @PreUpdate
     protected void preUpdate() throws ParseException {
         SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd");
-        if (this.modficationDate == null) modficationDate = sdf.parse(sdf.format(new Date()));
+        if (this.modificationDate == null) modificationDate = sdf.parse(sdf.format(new Date()));
     }
     
 }

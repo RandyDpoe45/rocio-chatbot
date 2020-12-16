@@ -5,19 +5,22 @@
  */
 package com.wesdom.rocio.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.wesdom.rocio.views.DiagnosisViews;
 import com.wesdom.rocio.views.DiseaseViews;
 import com.wesdom.rocio.views.TreatmentViews;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -52,6 +55,13 @@ public class Treatment {
             DiagnosisViews.BasicView.class
     })
     private String name;
+
+    @JsonView({
+            DiseaseViews.CreateUpdateView.class, DiseaseViews.BasicView.class,
+            DiagnosisViews.BasicView.class
+    })
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date modificationDate;
     
     @JsonView({
         TreatmentViews.CreateUpdateView.class,TreatmentViews.BasicView.class,
@@ -66,5 +76,17 @@ public class Treatment {
         DiseaseViews.BasicView.class
     })
     private Boolean biological;
+
+    @PrePersist
+    protected void prePersist() throws ParseException {
+        SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd");
+        if (this.modificationDate == null) modificationDate = sdf.parse(sdf.format(new Date()));
+    }
+
+    @PreUpdate
+    protected void preUpdate() throws ParseException {
+        SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd");
+        if (this.modificationDate == null) modificationDate = sdf.parse(sdf.format(new Date()));
+    }
         
 }
