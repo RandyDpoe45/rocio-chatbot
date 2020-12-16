@@ -5,10 +5,13 @@
  */
 package com.wesdom.rocio.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.wesdom.rocio.views.DiagnosisViews;
 import com.wesdom.rocio.views.DiseaseViews;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
@@ -69,8 +72,8 @@ public class Disease {
             DiseaseViews.CreateUpdateView.class, DiseaseViews.BasicView.class,
             DiagnosisViews.BasicView.class
     })
-    @LastModifiedDate()
-    private Date moficationDate;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date modficationDate;
 
     @JsonView({
         DiseaseViews.CreateUpdateView.class, DiseaseViews.BasicView.class
@@ -85,5 +88,17 @@ public class Disease {
     @ManyToMany(targetEntity = Treatment.class)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private List<Treatment> treatments;
+
+    @PrePersist
+    protected void prePersist() throws ParseException {
+        SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd");
+        if (this.modficationDate == null) modficationDate = sdf.parse(sdf.format(new Date()));
+    }
+
+    @PreUpdate
+    protected void preUpdate() throws ParseException {
+        SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd");
+        if (this.modficationDate == null) modficationDate = sdf.parse(sdf.format(new Date()));
+    }
     
 }
