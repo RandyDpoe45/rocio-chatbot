@@ -108,7 +108,7 @@ public class RequestRestController {
             filters.put("celNumber", request.getString("celular_consulta"));
             filters.put("status","AM,AA");
             Page<Request> requests = requestRepository.getAll(filters);
-            List<String> suggestedRep = requests.stream().map(x -> {return "#"+x.getId()+"#";}).collect(Collectors.toList());
+            List<String> suggestedRep = requests.stream().map(x -> {return ""+x.getId()+"";}).collect(Collectors.toList());
             List<Object> cards = requests.stream().map(x -> {
                return new JSONObject().put("type","text").put("value","Numero de solicitud: #"+x.getId()+"#\nProducto: "+x.getProduct()+
                        "\nDescripcion: "+x.getDescription())
