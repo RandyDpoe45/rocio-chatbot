@@ -22,6 +22,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -68,8 +69,7 @@ public class Disease {
             DiseaseViews.CreateUpdateView.class, DiseaseViews.BasicView.class,
             DiagnosisViews.BasicView.class
     })
-    @CreationTimestamp
-    @UpdateTimestamp
+    @LastModifiedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date moficationDate;
 
