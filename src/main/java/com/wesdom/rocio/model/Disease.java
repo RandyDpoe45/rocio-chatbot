@@ -8,15 +8,21 @@ package com.wesdom.rocio.model;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.wesdom.rocio.views.DiagnosisViews;
 import com.wesdom.rocio.views.DiseaseViews;
+
+import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
+import jdk.jfr.Timestamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -58,6 +64,14 @@ public class Disease {
     @Column(length = Integer.MAX_VALUE)
     private String image;
 
+    @JsonView({
+            DiseaseViews.CreateUpdateView.class, DiseaseViews.BasicView.class,
+            DiagnosisViews.BasicView.class
+    })
+    @CreationTimestamp
+    @UpdateTimestamp
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date moficationDate;
 
     @JsonView({
         DiseaseViews.CreateUpdateView.class, DiseaseViews.BasicView.class
