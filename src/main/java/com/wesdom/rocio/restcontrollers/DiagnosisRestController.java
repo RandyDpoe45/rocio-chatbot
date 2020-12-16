@@ -83,7 +83,7 @@ public class DiagnosisRestController {
                 } else {
                     diagnoses = diagnosisRepository.getByUserIdAndRequestId(Arrays.asList(req.getGroup().getExpert().getId()), req.getId());
                 }
-                String response = "Estas fueron las enfermedades diagnosticadas para el request #"+reqId+"# : \n";
+                String response = "*Estas fueron las enfermedades diagnosticadas para el solicitud* #"+reqId+"# : \n";
                 for (Disease d : diagnoses.get(0).getDiseases()) {
                     response += d.getName() + " \n";
                 }
